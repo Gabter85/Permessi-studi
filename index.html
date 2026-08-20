@@ -8,65 +8,9 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Permessi">
   
-  <!-- Generatore Icona PNG Nativa iOS (PS + Libro) -->
-  <script>
-    (function() {
-      var c = document.createElement('canvas');
-      c.width = 192;
-      c.height = 192;
-      var ctx = c.getContext('2d');
-      if (!ctx) return;
-
-      // 1. Sfondo Gradiente Stile iOS
-      var grad = ctx.createLinearGradient(0, 0, 192, 192);
-      grad.addColorStop(0, '#0284c7');
-      grad.addColorStop(1, '#075985');
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, 192, 192);
-
-      // 2. Testo "PS"
-      ctx.fillStyle = '#ffffff';
-      ctx.font = '900 58px -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'alphabetic';
-      ctx.fillText('PS', 96, 76);
-
-      // 3. Libro Aperto Stilizzato
-      // Pagina Sinistra
-      ctx.fillStyle = '#ffffff';
-      ctx.beginPath();
-      ctx.moveTo(96, 110);
-      ctx.quadraticCurveTo(62, 94, 28, 100);
-      ctx.lineTo(28, 142);
-      ctx.quadraticCurveTo(62, 136, 96, 154);
-      ctx.closePath();
-      ctx.fill();
-
-      // Pagina Destra
-      ctx.beginPath();
-      ctx.moveTo(96, 110);
-      ctx.quadraticCurveTo(130, 94, 164, 100);
-      ctx.lineTo(164, 142);
-      ctx.quadraticCurveTo(130, 136, 96, 154);
-      ctx.closePath();
-      ctx.fill();
-
-      // Dorso Centrale
-      ctx.beginPath();
-      ctx.moveTo(96, 110);
-      ctx.lineTo(96, 154);
-      ctx.strokeStyle = '#0284c7';
-      ctx.lineWidth = 3.5;
-      ctx.lineCap = 'round';
-      ctx.stroke();
-
-      // Inserimento Tag apple-touch-icon
-      var link = document.createElement('link');
-      link.rel = 'apple-touch-icon';
-      link.href = c.toDataURL('image/png');
-      document.head.appendChild(link);
-    })();
-  </script>
+  <!-- Icona PNG Nativa iOS -->
+  <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAADs0lEQVR4nO2az2sTQRTHv7O7SWxrm5IeaGtB/0ABj2K9iIgHQfDiyZtePHjQk7d6EQT/AY+CePLgQbAiFvQiiKAoxVZs1ZpKa5O22c3O82Znkm52t0k2TdJ4f7DsvOybnez33s68NzMoimKQoMhxHEf2gU5r3V59xI3Kx9Z/F5u/G873/Z8v3t31V7aWl5frtQjK5XJjYGCgr0a/e9t47/f39y80Go1XAOw6vfZ0w5kAYAD45g3H8Vb144Z7f+/F94/q9fsAfsJ1Xb9cLk+t/e7P2pP3YmZmpu667nSj0fBv6723jXEc/3y/2Z6fn/+9srLyB8COVqu16P3+T61W68t6/fP+/j57enr67/wOAKBWq13eZ8w6cQ6Hw806vVqt5jYajQc+j4aGhnre338HAPV6fT+A0wDuAHgD4BWAd55j5sA5/v5/3O121/Z53wPAfwCsAfh518+96+d2AExPT38E8AnANwCnAHwCcBfAjw6AbwB+A/gG4CeARQA/7+p9rwH4DOAzgE8A5gHMAtgAcA/ALwB/O5+ff1+vVCo/3Q3A7wCeA5gBcAfATwBfAXwFcB/AXwBLAAoAlgEsAFgA8A3Aj7sC8BPAVwDfAPwAsAjgOwAA2ARwC8BNAJ8AfALwBcA7AK8BvAXwEsBfAL8BfANwD8AvAJ8AvADwEsA7AK8B/ATwG8APAL8A/ATwEMBrAL8BfAHwHMD73aP4e7yKfwA/AFwD8BDAr7sC8A3AQwA/AXwD8AvAbwBfO5+/AfgK4DOALwDeAfgO4CuATwDeAPgcAF/16/V66y6A3+/4zX/14352Z7fVau27e/fu9UqlsgXgK4BPAMYBXAJwEcApANMAdgAcADgNYAzAdQDHAFwDcBHABQCXAFwAcAbAJQDTAPYB7AfQHwAQA6gBqADYD2AfwB4AOwAGAAwDGAAwAGAPgB0AewDsBtD/v4L0AegF0AOgG0AXgF4APQA6AeztBFAH0AnAv1UAdQBbALoBtAFoBtAMwP/p9X5eBVAH8KUDYAfADgDtANoBtANoBtAKoBFAHYDG2t7/GUA3gFsAugB0AugE0AmgE0AbgFYALQBqADQAoLW2/47t/Vf6zQCsA/gNwG8A/wK4DuA6gBsAbgC4CeDGHWj/DkC1Wp0AcB7AOQBnAUwB2AewB8AOgAEAewFsB7ANYAvA+m8A9wFsBzAOYALACQBHATQAqH2N264DAAAAABJRU5ErkJggg==">
+  <link rel="apple-touch-icon-precomposed" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAADs0lEQVR4nO2az2sTQRTHv7O7SWxrm5IeaGtB/0ABj2K9iIgHQfDiyZtePHjQk7d6EQT/AY+CePLgQbAiFvQiiKAoxVZs1ZpKa5O22c3O82Znkm52t0k2TdJ4f7DsvOybnez33s68NzMoimKQoMhxHEf2gU5r3V59xI3Kx9Z/F5u/G873/Z8v3t31V7aWl5frtQjK5XJjYGCgr0a/e9t47/f39y80Go1XAOw6vfZ0w5kAYAD45g3H8Vb144Z7f+/F94/q9fsAfsJ1Xb9cLk+t/e7P2pP3YmZmpu667nSj0fBv6723jXEc/3y/2Z6fn/+9srLyB8COVqu16P3+T61W68t6/fP+/j57enr67/wOAKBWq13eZ8w6cQ6Hw806vVqt5jYajQc+j4aGhnre338HAPV6fT+A0wDuAHgD4BWAd55j5sA5/v5/3O121/Z53wPAfwCsAfh518+96+d2AExPT38E8AnANwCnAHwCcBfAjw6AbwB+A/gG4CeARQA/7+p9rwH4DOAzgE8A5gHMAtgAcA/ALwB/O5+ff1+vVCo/3Q3A7wCeA5gBcAfATwBfAXwFcB/AXwBLAAoAlgEsAFgA8A3Aj7sC8BPAVwDfAPwAsAjgOwAA2ARwC8BNAJ8AfALwBcA7AK8BvAXwEsBfAL8BfANwD8AvAJ8AvADwEsA7AK8B/ATwG8APAL8A/ATwEMBrAL8BfAHwHMD73aP4e7yKfwA/AFwD8BDAr7sC8A3AQwA/AXwD8AvAbwBfO5+/AfgK4DOALwDeAfgO4CuATwDeAPgcAF/16/V66y6A3+/4zX/14352Z7fVau27e/fu9UqlsgXgK4BPAMYBXAJwEcApANMAdgAcADgNYAzAdQDHAFwDcBHABQCXAFwAcAbAJQDTAPYB7AfQHwAQA6gBqADYD2AfwB4AOwAGAAwDGAAwAGAPgB0AewDsBtD/v4L0AegF0AOgG0AXgF4APQA6AeztBFAH0AnAv1UAdQBbALoBtAFoBtAMwP/p9X5eBVAH8KUDYAfADgDtANoBtANoBtAKoBFAHYDG2t7/GUA3gFsAugB0AugE0AmgE0AbgFYALQBqADQAoLW2/47t/Vf6zQCsA/gNwG8A/wK4DuA6gBsAbgC4CeDGHWj/DkC1Wp0AcB7AOQBnAUwB2AewB8AOgAEAewFsB7ANYAvA+m8A9wFsBzAOYALACQBHATQAqH2N264DAAAAABJRU5ErkJggg==">
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -721,7 +665,7 @@
           return `
             <div class="bg-white border border-slate-200/90 rounded-2xl p-3.5 shadow-sm space-y-2 w-full">
               
-              <!-- Intestazione Scheda: Data a SX, Uscita + Modifica + Elimina a DX -->
+              <!-- Intestazione Scheda -->
               <div class="flex items-center justify-between gap-2 border-b border-slate-100 pb-2">
                 <div class="text-base font-black text-slate-900 leading-tight">${dateP}</div>
 
