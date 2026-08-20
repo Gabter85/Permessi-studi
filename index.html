@@ -15,18 +15,21 @@
   <style>
     *, *::before, *::after {
       box-sizing: border-box;
+      touch-action: manipulation;
     }
     html, body {
       width: 100%;
-      max-width: 100%;
+      max-width: 100vw;
       overflow-x: hidden !important;
       position: relative;
       background-color: #f8fafc;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       -webkit-tap-highlight-color: transparent;
+      margin: 0;
+      padding: 0;
     }
 
-    /* Sliders Perfetti e Allineati */
+    /* Slider Personalizzato Allineato */
     input[type=range] {
       -webkit-appearance: none;
       appearance: none;
@@ -169,7 +172,7 @@
     </button>
   </div>
 
-  <!-- Modale Inserimento / Modifica Riga (Bloccato a 100% schermo) -->
+  <!-- Modale Inserimento / Modifica Riga -->
   <div id="entryModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-end sm:items-center justify-center p-0 sm:p-4 overflow-x-hidden">
     <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-5 space-y-4 max-h-[92vh] overflow-y-auto overflow-x-hidden shadow-2xl border border-slate-200">
       
@@ -200,77 +203,78 @@
           </select>
         </div>
 
-        <!-- Date: Permesso & Richiesta -->
-        <div class="grid grid-cols-2 gap-3 w-full">
-          <div class="space-y-1 min-w-0">
-            <label class="block text-xs font-bold text-slate-600 uppercase truncate">Data Permesso</label>
-            <input type="date" id="inputDate" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-2 text-xs font-bold text-slate-800 focus:ring-2 focus:ring-sky-500">
+        <!-- Date Permesso & Richiesta (Separati e Ben Distanziati) -->
+        <div class="flex gap-3 w-full">
+          <div class="flex-1 min-w-0">
+            <label class="block text-xs font-bold text-slate-600 uppercase mb-1 truncate">Data Permesso</label>
+            <input type="date" id="inputDate" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-2 text-xs font-bold text-slate-800 text-center focus:ring-2 focus:ring-sky-500 shadow-sm">
           </div>
-          <div class="space-y-1 min-w-0">
-            <label class="block text-xs font-bold text-slate-600 uppercase truncate">Data Richiesta</label>
-            <input type="date" id="inputRequestDate" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-2 text-xs font-bold text-slate-800 focus:ring-2 focus:ring-sky-500">
+          <div class="flex-1 min-w-0">
+            <label class="block text-xs font-bold text-slate-600 uppercase mb-1 truncate">Data Richiesta</label>
+            <input type="date" id="inputRequestDate" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-2 text-xs font-bold text-slate-800 text-center focus:ring-2 focus:ring-sky-500 shadow-sm">
           </div>
         </div>
 
         <!-- Orario Uscita Lavoro -->
         <div class="space-y-1.5 w-full">
           <label class="block text-xs font-bold text-slate-600 uppercase">Orario Uscita da Lavoro</label>
-          <div class="grid grid-cols-3 gap-2 w-full">
-            <input type="time" id="inputWorkExitTime" value="13:00" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2 py-2 text-xs font-black text-slate-800 text-center focus:ring-2 focus:ring-sky-500">
-            <button type="button" onclick="document.getElementById('inputWorkExitTime').value='13:00'" class="w-full py-2 text-xs font-bold bg-slate-100 border border-slate-300 rounded-xl text-slate-700 active:bg-slate-200">13:00</button>
-            <button type="button" onclick="document.getElementById('inputWorkExitTime').value='15:00'" class="w-full py-2 text-xs font-bold bg-slate-100 border border-slate-300 rounded-xl text-slate-700 active:bg-slate-200">15:00</button>
+          <div class="flex gap-2 w-full">
+            <input type="time" id="inputWorkExitTime" value="13:00" required class="flex-1 bg-slate-50 border border-slate-300 rounded-xl px-2 py-2 text-xs font-black text-slate-800 text-center focus:ring-2 focus:ring-sky-500">
+            <button type="button" onclick="document.getElementById('inputWorkExitTime').value='13:00'" class="px-3.5 py-2 text-xs font-bold bg-slate-100 border border-slate-300 rounded-xl text-slate-700 active:bg-slate-200">13:00</button>
+            <button type="button" onclick="document.getElementById('inputWorkExitTime').value='15:00'" class="px-3.5 py-2 text-xs font-bold bg-slate-100 border border-slate-300 rounded-xl text-slate-700 active:bg-slate-200">15:00</button>
           </div>
         </div>
 
-        <!-- Box Sliders Ore Allineati -->
-        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3.5 space-y-3.5 w-full">
+        <!-- Box Sliders Ore Allineati e Speculari -->
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3.5 space-y-4 w-full">
           
           <!-- Slider Ore Richieste -->
-          <div class="space-y-1 w-full">
+          <div class="space-y-1.5 w-full">
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold text-slate-700 uppercase">Ore Richieste</span>
               <span class="text-xs font-black text-sky-800 bg-sky-100 border border-sky-200 px-2.5 py-0.5 rounded-lg">
                 <span id="formHoursReqLabel">2.5</span> h
               </span>
             </div>
-            <input type="range" id="inputHoursReqSlider" min="0.5" max="8" step="0.5" value="2.5" class="w-full">
-            <div class="flex justify-between text-[10px] text-slate-400 font-bold px-1">
-              <span>0.5h</span>
-              <span>2.0h</span>
-              <span>4.0h</span>
-              <span>6.0h</span>
-              <span>8.0h</span>
+            <div class="px-1">
+              <input type="range" id="inputHoursReqSlider" min="0.5" max="8" step="0.5" value="2.5" class="w-full">
+              <div class="flex justify-between text-[11px] text-slate-400 font-bold mt-1 px-1">
+                <span>0.5h</span>
+                <span>2.0h</span>
+                <span>4.0h</span>
+                <span>6.0h</span>
+                <span>8.0h</span>
+              </div>
             </div>
           </div>
 
-          <div class="border-t border-slate-200"></div>
-
           <!-- Slider Ore In Busta -->
-          <div class="space-y-1 w-full">
+          <div class="space-y-1.5 w-full pt-3 border-t border-slate-200">
             <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-slate-700 uppercase">Ore in Busta Paga</span>
-              <span class="text-xs font-black text-amber-800 bg-amber-100 border border-amber-200 px-2.5 py-0.5 rounded-lg">
-                <span id="formHoursBustaLabel">2.5</span> h
-              </span>
-            </div>
-            <input type="range" id="inputHoursBustaSlider" min="0" max="8" step="0.5" value="2.5" class="w-full">
-            <div class="flex items-center justify-between text-[10px] px-1">
-              <div class="flex gap-2 text-slate-400 font-bold">
-                <span>0h</span>
-                <span>2h</span>
-                <span>4h</span>
-                <span>6h</span>
-                <span>8h</span>
+              <span class="text-xs font-bold text-slate-700 uppercase">Ore in Busta</span>
+              <div class="flex items-center gap-2">
+                <button type="button" id="btnMatchHours" class="text-[11px] text-sky-700 font-bold underline">Copia Richieste</button>
+                <span class="text-xs font-black text-amber-800 bg-amber-100 border border-amber-200 px-2.5 py-0.5 rounded-lg">
+                  <span id="formHoursBustaLabel">2.5</span> h
+                </span>
               </div>
-              <button type="button" id="btnMatchHours" class="text-sky-700 font-bold hover:underline">Copia da Richieste</button>
+            </div>
+            <div class="px-1">
+              <input type="range" id="inputHoursBustaSlider" min="0.5" max="8" step="0.5" value="2.5" class="w-full">
+              <div class="flex justify-between text-[11px] text-slate-400 font-bold mt-1 px-1">
+                <span>0.5h</span>
+                <span>2.0h</span>
+                <span>4.0h</span>
+                <span>6.0h</span>
+                <span>8.0h</span>
+              </div>
             </div>
           </div>
 
         </div>
 
-        <!-- 2 Tasti Grandi Full-Width (Conferma e Attestato) -->
+        <!-- 2 Tasti Grandi Full-Width -->
         <div class="space-y-2.5 pt-1 w-full">
-          <!-- Tasto 1: Conferma Aziendale -->
           <button type="button" id="btnToggleConfirmed" class="w-full p-3.5 rounded-2xl flex items-center justify-between font-bold text-sm transition active:scale-[0.98] border-2">
             <div class="flex items-center gap-3 text-left">
               <div id="iconBoxConfirmed" class="w-9 h-9 rounded-xl flex items-center justify-center">
@@ -284,7 +288,6 @@
             <span id="badgeConfirmed" class="text-xs px-3 py-1 rounded-lg uppercase tracking-wider font-extrabold">CONFERMATA</span>
           </button>
 
-          <!-- Tasto 2: Attestato Scuola -->
           <button type="button" id="btnToggleJustified" class="w-full p-3.5 rounded-2xl flex items-center justify-between font-bold text-sm transition active:scale-[0.98] border-2">
             <div class="flex items-center gap-3 text-left">
               <div id="iconBoxJustified" class="w-9 h-9 rounded-xl flex items-center justify-center">
@@ -342,7 +345,6 @@
 
     lucide.createIcons();
 
-    // Sliders Modale
     const sliderReq = document.getElementById('inputHoursReqSlider');
     const labelReq = document.getElementById('formHoursReqLabel');
     const sliderBusta = document.getElementById('inputHoursBustaSlider');
@@ -356,7 +358,6 @@
       labelBusta.innerText = sliderReq.value;
     });
 
-    // Gestione Tasti Grandi
     const btnToggleConfirmed = document.getElementById('btnToggleConfirmed');
     const iconBoxConfirmed = document.getElementById('iconBoxConfirmed');
     const badgeConfirmed = document.getElementById('badgeConfirmed');
@@ -406,12 +407,10 @@
       updateModalButtons();
     });
 
-    // Date Odierne Default
     const now = new Date();
     document.getElementById('inputDate').valueAsDate = now;
     document.getElementById('inputRequestDate').valueAsDate = now;
 
-    // Login Silenzioso
     signInAnonymously(auth).then(() => {
       document.getElementById('authIndicator').innerHTML = `
         <span class="w-2 h-2 rounded-full bg-emerald-300"></span> Online
@@ -424,7 +423,6 @@
       `;
     });
 
-    // Ascolto Firebase
     function listenToData() {
       onValue(ref(db, 'permessi_studio/settings'), (snap) => {
         const val = snap.val();
@@ -447,7 +445,6 @@
       });
     }
 
-    // Aggiornamento Cruscotto Totale
     function renderDashboard() {
       const totReq = currentEntries.reduce((s, i) => s + parseFloat(i.hours || 0), 0);
       const totBusta = currentEntries.reduce((s, i) => s + parseFloat(i.hoursBusta !== undefined ? i.hoursBusta : i.hours), 0);
@@ -480,7 +477,6 @@
       lucide.createIcons();
     }
 
-    // Rendering Accordion Mesi
     function renderMonthsAccordion() {
       const container = document.getElementById('monthsContainer');
       if (currentEntries.length === 0) {
@@ -533,19 +529,18 @@
                   <div class="text-xs font-bold text-sky-700 uppercase tracking-tight mt-0.5">${item.materia || 'MATERIA'}</div>
                 </div>
                 <div class="flex items-center gap-1.5">
-                  <span class="text-xs font-semibold text-slate-600 bg-slate-100 px-2 py-1 rounded-lg">
+                  <span class="text-xs font-semibold text-slate-600 bg-slate-100 px-2.5 py-1 rounded-lg">
                     Uscita: <strong class="text-slate-900 font-mono">${item.workExitTime || '--:--'}</strong>
                   </span>
-                  <button onclick="window.editEntryModal('${item.id}')" class="text-sky-700 hover:bg-sky-50 p-1 rounded-lg border border-sky-100 transition" title="Modifica">
+                  <button onclick="window.editEntryModal('${item.id}')" class="text-sky-700 hover:bg-sky-50 p-1.5 rounded-lg border border-sky-100 transition" title="Modifica">
                     <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
                   </button>
-                  <button onclick="window.deleteEntry('${item.id}')" class="text-slate-300 hover:text-rose-600 p-1 rounded-lg transition" title="Elimina">
+                  <button onclick="window.deleteEntry('${item.id}')" class="text-slate-300 hover:text-rose-600 p-1.5 rounded-lg transition" title="Elimina">
                     <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
                   </button>
                 </div>
               </div>
 
-              <!-- Confronto Richieste vs Busta -->
               <div class="grid grid-cols-2 gap-2 bg-slate-50 border border-slate-200/80 rounded-xl p-2.5 w-full">
                 <div>
                   <div class="text-[10px] font-bold uppercase text-slate-500">Ore Richieste</div>
@@ -565,7 +560,6 @@
                 Richiesta inviata il: <strong class="text-slate-600">${dateR}</strong>
               </div>
 
-              <!-- Pulsanti Stato Cliccabili -->
               <div class="flex flex-wrap items-center gap-2 pt-1 border-t border-slate-100 w-full">
                 <button onclick="window.toggleConfirm('${item.id}', ${!isConf})" class="flex-1 text-xs py-1.5 px-2 rounded-xl font-bold flex items-center justify-center gap-1.5 transition ${isConf ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-slate-100 text-slate-500 border border-slate-200'}">
                   <i data-lucide="${isConf ? 'check-circle-2' : 'circle'}" class="w-3.5 h-3.5"></i>
@@ -573,7 +567,7 @@
                 </button>
 
                 <button onclick="window.toggleJustify('${item.id}', ${!isJust})" class="flex-1 text-xs py-1.5 px-2 rounded-xl font-bold flex items-center justify-center gap-1.5 transition ${isJust ? 'bg-sky-50 text-sky-700 border border-sky-200' : 'bg-slate-100 text-slate-400 border border-slate-200'}">
-                  <i data-lucide="${isJust ? 'file-check-2' : 'file'}" class="w-3.5 h-3.5"></i>
+                  <i data-lucide="${isJust ? 'file-check-2' : 'file'}" class="w-4 h-4"></i>
                   <span>${isJust ? 'Consegnato' : 'Da dare'}</span>
                 </button>
               </div>
