@@ -74,7 +74,7 @@
       border-radius: 9999px;
     }
 
-    /* Regole di Stampa A4 */
+    /* Stampa A4 Garantita */
     @media print {
       @page {
         size: A4 portrait;
@@ -658,67 +658,62 @@
           const isRowMatched = Math.abs(hReq - hBusta) < 0.01;
 
           return `
-            <div class="bg-white border border-slate-200 rounded-3xl p-4 sm:p-5 shadow-sm space-y-4 w-full">
+            <div class="bg-white border border-slate-200/90 rounded-2xl p-3.5 shadow-sm space-y-2.5 w-full">
               
-              <!-- Intestazione Scheda con Spaziature Corrette -->
-              <div class="flex items-center justify-between gap-2 border-b border-slate-100 pb-3">
-                
-                <!-- Data e Materia -->
-                <div class="min-w-0 flex-1 pr-1">
-                  <div class="text-base font-black text-slate-900 leading-tight">${dateP}</div>
-                  <div class="text-xs font-bold text-sky-700 uppercase tracking-tight truncate mt-0.5">${item.materia || 'MATERIA'}</div>
-                </div>
+              <!-- Intestazione Scheda: Data, Uscita, Modifica, Elimina -->
+              <div class="flex items-center justify-between gap-2 border-b border-slate-100 pb-2">
+                <div class="text-base font-black text-slate-900 leading-tight">${dateP}</div>
 
-                <!-- 3 Riquadri Allineati -->
                 <div class="flex items-center gap-1.5 flex-shrink-0">
-                  
-                  <!-- Riquadro 1: Uscita Orario -->
-                  <div class="h-9 px-2.5 bg-slate-100 border border-slate-200/90 rounded-xl flex items-center justify-center gap-1 shadow-sm">
+                  <div class="h-8 px-2.5 bg-slate-100 border border-slate-200/90 rounded-lg flex items-center justify-center gap-1 shadow-sm">
                     <span class="text-[10px] font-bold text-slate-500 uppercase">Uscita:</span>
                     <span class="text-xs font-black font-mono text-slate-900">${item.workExitTime || '--:--'}</span>
                   </div>
 
-                  <!-- Riquadro 2: Penna Modifica -->
-                  <button onclick="window.editEntryModal('${item.id}')" class="w-9 h-9 bg-slate-100 hover:bg-slate-200 border border-slate-200/90 rounded-xl flex items-center justify-center text-slate-700 active:scale-95 transition shadow-sm" title="Modifica Riga">
-                    <i data-lucide="pencil" class="w-4 h-4"></i>
+                  <button onclick="window.editEntryModal('${item.id}')" class="w-8 h-8 bg-slate-100 hover:bg-slate-200 border border-slate-200/90 rounded-lg flex items-center justify-center text-slate-700 active:scale-95 transition shadow-sm" title="Modifica Riga">
+                    <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
                   </button>
 
-                  <!-- Riquadro 3: Cestino Elimina -->
-                  <button onclick="window.deleteEntry('${item.id}')" class="w-9 h-9 bg-slate-100 hover:bg-rose-50 border border-slate-200/90 rounded-xl flex items-center justify-center text-slate-400 hover:text-rose-600 active:scale-95 transition shadow-sm" title="Elimina">
-                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                  <button onclick="window.deleteEntry('${item.id}')" class="w-8 h-8 bg-slate-100 hover:bg-rose-50 border border-slate-200/90 rounded-lg flex items-center justify-center text-slate-400 hover:text-rose-600 active:scale-95 transition shadow-sm" title="Elimina">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
                   </button>
                 </div>
               </div>
 
-              <!-- Riquadro Confronto Ore Perfettamente Contenuto -->
-              <div class="bg-slate-50 border border-slate-200/90 rounded-2xl p-3.5 w-full">
+              <!-- Materia Visibile al 100% Senza Troncatura -->
+              <div class="text-xs font-black text-sky-700 uppercase tracking-tight leading-snug">
+                ${item.materia || 'MATERIA'}
+              </div>
+
+              <!-- Riquadro Ore Compatto, Centrato e Senza Spazi Inutili -->
+              <div class="bg-slate-50 border border-slate-200/90 rounded-xl py-2 px-3 w-full">
                 <div class="flex items-center justify-between gap-2">
                   
                   <!-- Richieste -->
                   <div class="flex-1 min-w-0">
-                    <span class="text-[11px] font-black uppercase tracking-wider text-slate-400">Richieste</span>
-                    <div class="text-2xl font-black text-slate-900 leading-tight mt-0.5">
+                    <span class="text-[10px] font-black uppercase tracking-wider text-slate-400">Richieste</span>
+                    <div class="text-xl font-black text-slate-900 leading-tight mt-0.5">
                       ${hReq.toFixed(1).replace('.0', '')}<span class="text-xs font-bold text-slate-400 ml-0.5">h</span>
                     </div>
                   </div>
 
-                  <!-- Divisore -->
-                  <div class="w-px h-10 bg-slate-200 flex-shrink-0"></div>
+                  <!-- Divisore Verticale -->
+                  <div class="w-px h-8 bg-slate-200 flex-shrink-0"></div>
 
                   <!-- In Busta -->
                   <div class="flex-1 min-w-0 pl-1">
-                    <span class="text-[11px] font-black uppercase tracking-wider text-amber-800">In Busta</span>
-                    <div class="text-2xl font-black ${isRowMatched ? 'text-amber-700' : 'text-rose-600'} leading-tight mt-0.5">
+                    <span class="text-[10px] font-black uppercase tracking-wider text-amber-800">In Busta</span>
+                    <div class="text-xl font-black ${isRowMatched ? 'text-amber-700' : 'text-rose-600'} leading-tight mt-0.5">
                       ${hBusta.toFixed(1).replace('.0', '')}<span class="text-xs font-bold text-amber-500 ml-0.5">h</span>
                     </div>
                   </div>
 
                   <!-- Tasti Azione: Fulmine ⚡ e Mod -->
                   <div class="flex items-center gap-1.5 flex-shrink-0">
-                    <button onclick="window.quickSyncHours('${item.id}', ${hReq})" class="w-9 h-9 rounded-xl flex items-center justify-center transition active:scale-90 shadow-sm flex-shrink-0 ${isRowMatched ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 animate-pulse'}" title="Allinea subito a ${hReq}h">
+                    <button onclick="window.quickSyncHours('${item.id}', ${hReq})" class="w-8 h-8 rounded-lg flex items-center justify-center transition active:scale-90 shadow-sm flex-shrink-0 ${isRowMatched ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 animate-pulse'}" title="Allinea a ${hReq}h">
                       <i data-lucide="zap" class="w-4 h-4 fill-current"></i>
                     </button>
-                    <button onclick="window.openBustaModal('${item.id}', ${hReq}, ${hBusta}, '${dateP} - ${item.materia}')" class="h-9 px-2.5 text-xs font-black text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 rounded-xl shadow-sm active:scale-95 transition flex items-center justify-center flex-shrink-0">
+                    <button onclick="window.openBustaModal('${item.id}', ${hReq}, ${hBusta}, '${dateP} - ${item.materia}')" class="h-8 px-2.5 text-[11px] font-black text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 rounded-lg shadow-sm active:scale-95 transition flex items-center justify-center flex-shrink-0">
                       Mod.
                     </button>
                   </div>
@@ -726,19 +721,19 @@
                 </div>
               </div>
 
-              <div class="text-xs text-slate-400 font-medium px-1">
+              <div class="text-[11px] text-slate-400 font-medium px-0.5">
                 Richiesta inviata il: <strong class="text-slate-700 font-bold">${dateR}</strong>
               </div>
 
               <!-- Tasti Stato Conferma e Attestato -->
-              <div class="flex items-center gap-2.5 pt-1 border-t border-slate-100 w-full">
-                <button onclick="window.toggleConfirm('${item.id}', ${!isConf})" class="flex-1 py-3 px-3 rounded-2xl font-black text-xs flex items-center justify-center gap-2 transition active:scale-98 ${isConf ? 'bg-emerald-50 text-emerald-800 border-2 border-emerald-300' : 'bg-slate-100 text-slate-500 border border-slate-200'}">
-                  <i data-lucide="${isConf ? 'check-circle-2' : 'circle'}" class="w-4 h-4 stroke-[2.5]"></i>
+              <div class="flex items-center gap-2 pt-0.5 border-t border-slate-100 w-full">
+                <button onclick="window.toggleConfirm('${item.id}', ${!isConf})" class="flex-1 py-2 px-2.5 rounded-xl font-black text-xs flex items-center justify-center gap-1.5 transition active:scale-98 ${isConf ? 'bg-emerald-50 text-emerald-800 border border-emerald-300' : 'bg-slate-100 text-slate-500 border border-slate-200'}">
+                  <i data-lucide="${isConf ? 'check-circle-2' : 'circle'}" class="w-3.5 h-3.5 stroke-[2.5]"></i>
                   <span>${isConf ? 'Confermata' : 'In attesa'}</span>
                 </button>
 
-                <button onclick="window.toggleJustify('${item.id}', ${!isJust})" class="flex-1 py-3 px-3 rounded-2xl font-black text-xs flex items-center justify-center gap-2 transition active:scale-98 ${isJust ? 'bg-sky-50 text-sky-800 border-2 border-sky-300' : 'bg-slate-100 text-slate-500 border border-slate-200'}">
-                  <i data-lucide="${isJust ? 'file-check-2' : 'file'}" class="w-4 h-4"></i>
+                <button onclick="window.toggleJustify('${item.id}', ${!isJust})" class="flex-1 py-2 px-2.5 rounded-xl font-black text-xs flex items-center justify-center gap-1.5 transition active:scale-98 ${isJust ? 'bg-sky-50 text-sky-800 border border-sky-300' : 'bg-slate-100 text-slate-500 border border-slate-200'}">
+                  <i data-lucide="${isJust ? 'file-check-2' : 'file'}" class="w-3.5 h-3.5"></i>
                   <span>${isJust ? 'Consegnato' : 'Da dare'}</span>
                 </button>
               </div>
@@ -774,7 +769,7 @@
               </button>
             </div>
 
-            <div id="acc_${monthKey}" class="${isOpen ? '' : 'hidden'} p-4 sm:p-5 bg-slate-100/50 space-y-3.5 w-full">
+            <div id="acc_${monthKey}" class="${isOpen ? '' : 'hidden'} p-3.5 sm:p-4 bg-slate-100/50 space-y-3 w-full">
               ${entriesCardsHtml}
             </div>
           </div>
