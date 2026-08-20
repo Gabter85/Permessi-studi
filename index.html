@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Permessi Studio 150 Ore</title>
+  <title>Permessi Studio</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   
@@ -22,14 +22,13 @@
       max-width: 100vw !important;
       overflow-x: hidden !important;
       position: relative;
-      background-color: #f8fafc;
+      background-color: #f1f5f9;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       -webkit-tap-highlight-color: transparent;
       margin: 0;
       padding: 0;
     }
 
-    /* Reset Date & Time inputs su iOS */
     input[type="date"], input[type="time"] {
       -webkit-appearance: none;
       -moz-appearance: none;
@@ -41,12 +40,11 @@
       outline: none;
     }
 
-    /* Sliders Perfetti e Allineati */
     input[type=range] {
       -webkit-appearance: none;
       appearance: none;
       width: 100%;
-      height: 26px;
+      height: 24px;
       background: transparent;
       margin: 0;
       padding: 0;
@@ -58,13 +56,13 @@
     input[type=range]::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      height: 24px;
-      width: 24px;
+      height: 22px;
+      width: 22px;
       border-radius: 50%;
       background: #0284c7;
       cursor: pointer;
-      box-shadow: 0 2px 6px rgba(2, 132, 199, 0.4);
-      margin-top: -8px;
+      box-shadow: 0 2px 5px rgba(2, 132, 199, 0.4);
+      margin-top: -7px;
     }
     input[type=range]::-webkit-slider-runnable-track {
       width: 100%;
@@ -77,23 +75,18 @@
 </head>
 <body class="text-slate-800 min-h-screen pb-28 w-full overflow-x-hidden">
 
-  <!-- Header Stile ClasseViva -->
+  <!-- Header Minimale (Come da Schizzo) -->
   <header class="sticky top-0 z-30 bg-sky-700 text-white shadow-md px-4 py-3.5 w-full">
     <div class="max-w-md mx-auto flex items-center justify-between">
-      <div class="flex items-center space-x-2.5">
-        <div class="w-10 h-10 rounded-2xl bg-white/15 border border-white/20 flex items-center justify-center font-bold shadow-inner">
-          <i data-lucide="graduation-cap" class="w-6 h-6 text-white"></i>
-        </div>
-        <div>
-          <h1 class="text-base font-bold tracking-tight leading-tight">Permessi Studio 150h</h1>
-          <p class="text-xs text-sky-100 flex items-center gap-1.5" id="authIndicator">
-            <span class="w-2 h-2 rounded-full bg-amber-300 animate-pulse"></span> Connessione...
-          </p>
-        </div>
+      <div>
+        <h1 class="text-base font-black tracking-tight leading-none uppercase">Permessi Studio</h1>
+        <p class="text-[11px] text-sky-200 flex items-center gap-1.5 mt-1 font-semibold" id="authIndicator">
+          <span class="w-2 h-2 rounded-full bg-amber-300 animate-pulse"></span> Connessione...
+        </p>
       </div>
 
-      <button id="btnOpenModalTop" class="bg-white text-sky-800 hover:bg-sky-50 text-xs font-bold px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-sm active:scale-95 transition">
-        <i data-lucide="plus" class="w-4 h-4 stroke-[2.5]"></i>
+      <button id="btnOpenModalTop" class="bg-white text-sky-800 hover:bg-sky-50 text-xs font-extrabold px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-sm active:scale-95 transition uppercase tracking-wider">
+        <i data-lucide="plus" class="w-4 h-4 stroke-[3]"></i>
         <span>Nuova Riga</span>
       </button>
     </div>
@@ -101,75 +94,72 @@
 
   <main class="max-w-md mx-auto px-4 pt-4 space-y-4 w-full overflow-x-hidden">
 
-    <!-- Cruscotto Totale Ingrandito -->
-    <section class="bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-5 shadow-sm space-y-4 w-full">
-      <div class="flex items-center justify-between">
-        <div>
-          <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Quadro Generale</span>
-          <h2 class="text-lg font-black text-slate-800 leading-tight">Riepilogo Totale Ore</h2>
-        </div>
-        <button id="btnEditTotal" class="text-xs text-sky-700 hover:text-sky-800 font-bold flex items-center gap-1 bg-sky-50 hover:bg-sky-100 px-3 py-1.5 rounded-xl border border-sky-200/80 transition">
+    <!-- Dashboard Principale (Layout identico allo Schizzo) -->
+    <section class="bg-white border border-slate-200 rounded-3xl p-4 sm:p-5 shadow-sm space-y-4 w-full">
+      
+      <!-- Riga Monte Ore in Alto a Destra -->
+      <div class="flex justify-end items-center">
+        <button id="btnEditTotal" class="text-xs text-sky-700 hover:text-sky-800 font-black flex items-center gap-1.5 bg-sky-50 hover:bg-sky-100 px-3 py-1.5 rounded-xl border border-sky-200 transition">
           <i data-lucide="sliders-horizontal" class="w-3.5 h-3.5"></i>
           <span id="maxHoursLabel">Monte: 150h</span>
         </button>
       </div>
 
-      <!-- Tre Box KPI Grandi -->
+      <!-- 3 Riquadri Grandi: RICHIESTA | BUSTA | RESIDUO -->
       <div class="grid grid-cols-3 gap-2.5 w-full">
-        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-2.5 text-center">
-          <div class="text-xs font-bold text-slate-500 uppercase">Richieste</div>
-          <div class="text-2xl font-black text-slate-900 mt-0.5">
+        
+        <!-- 1. Richiesta -->
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3 text-center flex flex-col justify-center min-h-[90px]">
+          <span class="text-[11px] font-black text-slate-400 uppercase tracking-wider">Richiesta</span>
+          <div class="text-2xl font-black text-slate-900 mt-1">
             <span id="totalRequested">0</span><span class="text-xs font-bold text-slate-400 ml-0.5">h</span>
           </div>
         </div>
 
-        <div class="bg-amber-50/80 border border-amber-200 rounded-2xl p-2.5 text-center">
-          <div class="text-xs font-bold text-amber-800 uppercase">In Busta</div>
-          <div class="text-2xl font-black text-amber-700 mt-0.5">
+        <!-- 2. Busta -->
+        <div class="bg-amber-50/80 border border-amber-200 rounded-2xl p-3 text-center flex flex-col justify-center min-h-[90px]">
+          <span class="text-[11px] font-black text-amber-800 uppercase tracking-wider">Busta</span>
+          <div class="text-2xl font-black text-amber-700 mt-1">
             <span id="totalInBusta">0</span><span class="text-xs font-bold text-amber-600 ml-0.5">h</span>
           </div>
         </div>
 
-        <div class="bg-emerald-50/80 border border-emerald-200 rounded-2xl p-2.5 text-center">
-          <div class="text-xs font-bold text-emerald-800 uppercase">Residuo 150h</div>
-          <div class="text-2xl font-black text-emerald-700 mt-0.5">
+        <!-- 3. Residuo -->
+        <div class="bg-emerald-50/80 border border-emerald-200 rounded-2xl p-3 text-center flex flex-col justify-center min-h-[90px]">
+          <span class="text-[11px] font-black text-emerald-800 uppercase tracking-wider">Residuo</span>
+          <div class="text-2xl font-black text-emerald-700 mt-1">
             <span id="totalRemaining">150</span><span class="text-xs font-bold text-emerald-600 ml-0.5">h</span>
           </div>
         </div>
+
       </div>
 
-      <!-- Barra di Avanzamento -->
-      <div class="space-y-1.5">
-        <div class="flex justify-between text-xs font-bold text-slate-600">
-          <span>Consumo Plafond</span>
-          <span id="percentageUsed" class="text-sky-700 font-extrabold">0%</span>
+      <!-- Riquadro Consumo con Barra (% CONSUMO %) -->
+      <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3 space-y-2">
+        <div class="flex items-center justify-between text-xs font-black tracking-wider text-slate-600 uppercase px-1">
+          <span id="percentageUsed">0%</span>
+          <span class="text-slate-400">Consumo</span>
+          <span id="hoursUsedLabel">0 / 150h</span>
         </div>
-        <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden p-0.5 border border-slate-200">
-          <div id="progressBar" class="h-full bg-gradient-to-r from-sky-500 to-sky-600 rounded-full transition-all duration-500" style="width: 0%"></div>
+        <div class="w-full h-3 bg-slate-200 rounded-full overflow-hidden p-0.5">
+          <div id="progressBar" class="h-full bg-sky-600 rounded-full transition-all duration-500" style="width: 0%"></div>
         </div>
       </div>
 
-      <!-- Banner Informativo Quadratura -->
-      <div id="reconciliationBanner" class="text-xs rounded-xl p-3 text-center font-bold bg-slate-100 text-slate-600 border border-slate-200 flex items-center justify-center gap-2">
-        Nessun dato registrato
-      </div>
     </section>
 
-    <!-- Intestazione Archivio Mesi -->
-    <div class="flex items-center justify-between pt-1">
-      <div class="flex items-center gap-1.5 text-xs font-bold text-slate-600 uppercase tracking-wider">
-        <i data-lucide="folder-clock" class="w-4 h-4 text-sky-700"></i>
-        <span>Archivio Mensile</span>
-      </div>
+    <!-- Sezione Archivio Mensile -->
+    <div class="flex items-center justify-between pt-1 px-1">
+      <h2 class="text-xs font-black text-slate-500 uppercase tracking-wider">Archivio Mensile</h2>
       <button id="btnExportAll" class="text-xs bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow-sm active:scale-95">
         <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 text-sky-700"></i>
-        <span>Foglio Completo</span>
+        <span>Foglio Totale</span>
       </button>
     </div>
 
-    <!-- Contenitore Accordion Mesi -->
-    <div id="monthsContainer" class="space-y-3.5 w-full">
-      <div class="text-center py-10 text-slate-400 text-sm bg-white rounded-2xl border border-slate-200">
+    <!-- Lista Mesi (Accordion) -->
+    <div id="monthsContainer" class="space-y-3 w-full">
+      <div class="text-center py-10 text-slate-400 text-sm bg-white rounded-3xl border border-slate-200">
         <i data-lucide="loader-2" class="w-6 h-6 animate-spin mx-auto mb-2 text-sky-600"></i>
         Caricamento archivio...
       </div>
@@ -184,14 +174,14 @@
     </button>
   </div>
 
-  <!-- Modale Inserimento / Modifica (Senza Titolo e Ingrandito) -->
+  <!-- Modale Inserimento / Modifica Riga -->
   <div id="entryModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-end sm:items-center justify-center p-0 sm:p-4 overflow-hidden">
     <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-5 space-y-3.5 shadow-2xl border border-slate-200 relative">
       
-      <!-- Tasto di Chiusura X in Alto a Destra -->
+      <!-- Tasto Chiusura X -->
       <div class="flex justify-end">
         <button id="btnCloseModal" type="button" class="text-slate-400 hover:text-slate-600 p-1.5 rounded-full bg-slate-100 hover:bg-slate-200 transition">
-          <i data-lucide="x" class="w-5 h-5"></i>
+          <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
 
@@ -212,7 +202,7 @@
           </select>
         </div>
 
-        <!-- Date: Riquadri Separati Fisicamente -->
+        <!-- Date -->
         <div class="grid grid-cols-2 gap-3 w-full">
           <div class="bg-slate-50 border border-slate-300 rounded-2xl p-2.5 shadow-sm space-y-1">
             <label class="block text-xs font-black uppercase text-slate-500 tracking-wider truncate">Data Permesso</label>
@@ -224,12 +214,12 @@
           </div>
         </div>
 
-        <!-- Orario Uscita Lavoro: Preimpostati a SX, Personalizzato a DX -->
+        <!-- Orario Uscita Lavoro -->
         <div class="space-y-1.5 w-full">
           <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider">Orario Uscita Lavoro</label>
           <div class="grid grid-cols-2 gap-3 w-full">
             
-            <!-- Sinistra: Tasti Preimpostati (13:00 e 15:00) -->
+            <!-- Preimpostati a SX -->
             <div class="bg-slate-50 border border-slate-200 rounded-2xl p-2 space-y-1 shadow-sm">
               <span class="block text-[10px] font-black uppercase text-slate-400 tracking-wider text-center">Preimpostati</span>
               <div class="grid grid-cols-2 gap-1.5">
@@ -238,7 +228,7 @@
               </div>
             </div>
 
-            <!-- Destra: Riquadro Personalizzato / Manuale -->
+            <!-- Personalizzato a DX -->
             <div class="bg-slate-50 border border-slate-300 rounded-2xl p-2 space-y-1 shadow-sm">
               <span class="block text-[10px] font-black uppercase text-sky-700 tracking-wider text-center">Personalizzato</span>
               <div class="bg-white border border-slate-300 rounded-xl px-2 py-1 shadow-inner">
@@ -249,10 +239,9 @@
           </div>
         </div>
 
-        <!-- Box Sliders Ore Speculari e Allineati -->
+        <!-- Sliders Ore -->
         <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3.5 space-y-3.5 w-full">
           
-          <!-- Slider 1: Ore Richieste -->
           <div class="space-y-1.5 w-full">
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold text-slate-700 uppercase">Ore Richieste</span>
@@ -272,7 +261,6 @@
 
           <div class="border-t border-slate-200"></div>
 
-          <!-- Slider 2: Ore in Busta Paga -->
           <div class="space-y-1.5 w-full">
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold text-slate-700 uppercase">Ore in Busta</span>
@@ -295,7 +283,7 @@
 
         </div>
 
-        <!-- 2 Tasti Grandi Full-Width -->
+        <!-- 2 Tasti Full-Width -->
         <div class="space-y-2 pt-1 w-full">
           <button type="button" id="btnToggleConfirmed" class="w-full p-3.5 rounded-2xl flex items-center justify-between font-bold text-sm transition active:scale-[0.98] border-2">
             <div class="flex items-center gap-3 text-left">
@@ -318,7 +306,7 @@
           </button>
         </div>
 
-        <!-- Tasto Salva Finale -->
+        <!-- Salva -->
         <button type="submit" id="btnSubmitForm" class="w-full bg-sky-700 hover:bg-sky-800 text-white font-black py-4 rounded-2xl shadow-lg shadow-sky-700/25 active:scale-98 transition text-sm uppercase tracking-wider">
           Salva Riga Permesso
         </button>
@@ -435,7 +423,7 @@
     }).catch(err => {
       console.error(err);
       document.getElementById('authIndicator').innerHTML = `
-        <span class="w-2 h-2 rounded-full bg-rose-300"></span> Errore Connessione
+        <span class="w-2 h-2 rounded-full bg-rose-300"></span> Errore
       `;
     });
 
@@ -471,26 +459,8 @@
       document.getElementById('totalInBusta').innerText = totBusta.toFixed(1).replace('.0', '');
       document.getElementById('totalRemaining').innerText = remain.toFixed(1).replace('.0', '');
       document.getElementById('percentageUsed').innerText = `${percent.toFixed(1)}%`;
+      document.getElementById('hoursUsedLabel').innerText = `${totReq.toFixed(1)} / ${maxHoursTotal}h`;
       document.getElementById('progressBar').style.width = `${percent}%`;
-
-      const banner = document.getElementById('reconciliationBanner');
-      if (currentEntries.length === 0) {
-        banner.className = "text-xs rounded-xl p-3 text-center font-bold bg-slate-100 text-slate-500 border border-slate-200 flex items-center justify-center gap-2";
-        banner.innerHTML = `<i data-lucide="info" class="w-4 h-4 text-slate-400"></i> Nessun permesso registrato`;
-      } else {
-        const diff = totBusta - totReq;
-        if (Math.abs(diff) < 0.01) {
-          banner.className = "text-xs rounded-xl p-3 text-center font-bold bg-emerald-50 border border-emerald-200 text-emerald-700 flex items-center justify-center gap-2";
-          banner.innerHTML = `<i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i> Quadratura perfetta: ${totReq}h richieste = ${totBusta}h in busta`;
-        } else if (diff < 0) {
-          banner.className = "text-xs rounded-xl p-3 text-center font-bold bg-rose-50 border border-rose-200 text-rose-700 flex items-center justify-center gap-2";
-          banner.innerHTML = `<i data-lucide="alert-triangle" class="w-4 h-4 text-rose-600"></i> Attenzione: mancano ${Math.abs(diff).toFixed(1)}h in busta rispetto a quelle richieste!`;
-        } else {
-          banner.className = "text-xs rounded-xl p-3 text-center font-bold bg-amber-50 border border-amber-200 text-amber-800 flex items-center justify-center gap-2";
-          banner.innerHTML = `<i data-lucide="info" class="w-4 h-4 text-amber-600"></i> +${diff.toFixed(1)}h in piu segnate sul cedolino`;
-        }
-      }
-      lucide.createIcons();
     }
 
     function renderMonthsAccordion() {
@@ -500,7 +470,7 @@
           <div class="text-center py-10 bg-white border border-slate-200 rounded-3xl p-5 shadow-sm">
             <i data-lucide="file-spreadsheet" class="w-9 h-9 text-slate-300 mx-auto mb-2"></i>
             <p class="text-sm font-bold text-slate-700">Nessun mese registrato</p>
-            <p class="text-xs text-slate-400 mt-1">Tocca "Nuova Riga" per inserire le tue ore di permesso.</p>
+            <p class="text-xs text-slate-400 mt-1">Tocca "Nuova Riga" per aggiungere ore.</p>
           </div>
         `;
         lucide.createIcons();
@@ -559,13 +529,13 @@
 
               <div class="grid grid-cols-2 gap-2.5 bg-slate-50 border border-slate-200/80 rounded-xl p-2.5 w-full">
                 <div>
-                  <div class="text-xs font-bold uppercase text-slate-500">Ore Richieste</div>
+                  <div class="text-xs font-bold uppercase text-slate-500">Richieste</div>
                   <div class="text-lg font-black text-slate-900 mt-0.5">
                     ${hReq.toFixed(1).replace('.0', '')}<span class="text-xs font-medium text-slate-500 ml-0.5">h</span>
                   </div>
                 </div>
                 <div class="border-l border-slate-200 pl-3">
-                  <div class="text-xs font-bold uppercase text-amber-800">Ore In Busta</div>
+                  <div class="text-xs font-bold uppercase text-amber-800">In Busta</div>
                   <div class="text-lg font-black ${Math.abs(hReq - hBusta) < 0.01 ? 'text-amber-700' : 'text-rose-600'} mt-0.5">
                     ${hBusta.toFixed(1).replace('.0', '')}<span class="text-xs font-medium text-slate-500 ml-0.5">h</span>
                   </div>
@@ -604,7 +574,7 @@
                   </div>
                 </div>
                 <div class="flex items-center gap-2">
-                  <span class="text-xs px-2.5 py-0.5 rounded-full font-bold ${isMatched ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
+                  <span class="text-[10px] px-2.5 py-0.5 rounded-full font-bold ${isMatched ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
                     ${isMatched ? 'OK' : 'Diff'}
                   </span>
                   <i data-lucide="chevron-down" id="icon_${monthKey}" class="w-4 h-4 text-slate-400 transition-transform ${isOpen ? 'rotate-180' : ''}"></i>
