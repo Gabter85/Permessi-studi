@@ -74,7 +74,7 @@
       border-radius: 9999px;
     }
 
-    /* Stampa A4 Garantita */
+    /* Regole di Stampa A4 */
     @media print {
       @page {
         size: A4 portrait;
@@ -660,67 +660,70 @@
           return `
             <div class="bg-white border border-slate-200 rounded-3xl p-4 sm:p-5 shadow-sm space-y-4 w-full">
               
-              <!-- Intestazione Scheda con 3 Riquadri Proporzionati -->
+              <!-- Intestazione Scheda con Spaziature Corrette -->
               <div class="flex items-center justify-between gap-2 border-b border-slate-100 pb-3">
                 
                 <!-- Data e Materia -->
-                <div class="space-y-0.5 min-w-0 flex-1">
-                  <div class="text-lg font-black text-slate-900 leading-tight">${dateP}</div>
-                  <div class="text-xs font-bold text-sky-700 uppercase tracking-wide truncate">${item.materia || 'MATERIA'}</div>
+                <div class="min-w-0 flex-1 pr-1">
+                  <div class="text-base font-black text-slate-900 leading-tight">${dateP}</div>
+                  <div class="text-xs font-bold text-sky-700 uppercase tracking-tight truncate mt-0.5">${item.materia || 'MATERIA'}</div>
                 </div>
 
-                <!-- 3 Riquadri Grigio/Slate Allineati -->
-                <div class="flex items-center gap-2 flex-shrink-0">
+                <!-- 3 Riquadri Allineati -->
+                <div class="flex items-center gap-1.5 flex-shrink-0">
                   
-                  <!-- Riquadro 1: Uscita Orario (Grande e Rettangolare) -->
-                  <div class="h-11 px-3.5 bg-slate-100 border border-slate-200/90 rounded-2xl flex items-center justify-center gap-1.5 shadow-sm">
-                    <span class="text-[11px] font-bold text-slate-500 uppercase">Uscita:</span>
-                    <span class="text-sm font-black font-mono text-slate-900">${item.workExitTime || '--:--'}</span>
+                  <!-- Riquadro 1: Uscita Orario -->
+                  <div class="h-9 px-2.5 bg-slate-100 border border-slate-200/90 rounded-xl flex items-center justify-center gap-1 shadow-sm">
+                    <span class="text-[10px] font-bold text-slate-500 uppercase">Uscita:</span>
+                    <span class="text-xs font-black font-mono text-slate-900">${item.workExitTime || '--:--'}</span>
                   </div>
 
-                  <!-- Riquadro 2: Penna Modifica (Quadrato) -->
-                  <button onclick="window.editEntryModal('${item.id}')" class="w-11 h-11 bg-slate-100 hover:bg-slate-200 border border-slate-200/90 rounded-2xl flex items-center justify-center text-slate-700 active:scale-95 transition shadow-sm" title="Modifica Riga">
+                  <!-- Riquadro 2: Penna Modifica -->
+                  <button onclick="window.editEntryModal('${item.id}')" class="w-9 h-9 bg-slate-100 hover:bg-slate-200 border border-slate-200/90 rounded-xl flex items-center justify-center text-slate-700 active:scale-95 transition shadow-sm" title="Modifica Riga">
                     <i data-lucide="pencil" class="w-4 h-4"></i>
                   </button>
 
-                  <!-- Riquadro 3: Cestino Elimina (Quadrato) -->
-                  <button onclick="window.deleteEntry('${item.id}')" class="w-11 h-11 bg-slate-100 hover:bg-rose-50 border border-slate-200/90 rounded-2xl flex items-center justify-center text-slate-400 hover:text-rose-600 active:scale-95 transition shadow-sm" title="Elimina">
+                  <!-- Riquadro 3: Cestino Elimina -->
+                  <button onclick="window.deleteEntry('${item.id}')" class="w-9 h-9 bg-slate-100 hover:bg-rose-50 border border-slate-200/90 rounded-xl flex items-center justify-center text-slate-400 hover:text-rose-600 active:scale-95 transition shadow-sm" title="Elimina">
                     <i data-lucide="trash-2" class="w-4 h-4"></i>
                   </button>
                 </div>
               </div>
 
-              <!-- Riquadro Confronto Ore: Spazioso, Centrato e Bilanciato -->
-              <div class="grid grid-cols-2 gap-3 bg-slate-50 border border-slate-200/90 rounded-2xl p-4 w-full items-center">
-                
-                <!-- Colonna SX: Richieste (Centrata) -->
-                <div class="flex flex-col justify-center text-left pl-1">
-                  <span class="text-xs font-black uppercase tracking-wider text-slate-400 whitespace-nowrap">Richieste</span>
-                  <div class="text-3xl font-black text-slate-900 mt-1">
-                    ${hReq.toFixed(1).replace('.0', '')}<span class="text-base font-bold text-slate-400 ml-0.5">h</span>
+              <!-- Riquadro Confronto Ore Perfettamente Contenuto -->
+              <div class="bg-slate-50 border border-slate-200/90 rounded-2xl p-3.5 w-full">
+                <div class="flex items-center justify-between gap-2">
+                  
+                  <!-- Richieste -->
+                  <div class="flex-1 min-w-0">
+                    <span class="text-[11px] font-black uppercase tracking-wider text-slate-400">Richieste</span>
+                    <div class="text-2xl font-black text-slate-900 leading-tight mt-0.5">
+                      ${hReq.toFixed(1).replace('.0', '')}<span class="text-xs font-bold text-slate-400 ml-0.5">h</span>
+                    </div>
                   </div>
-                </div>
-                
-                <!-- Colonna DX: In Busta + Fulmine + Mod (Tutto Centrato e Allineato) -->
-                <div class="border-l border-slate-200 pl-3 flex items-center justify-between gap-2">
-                  <div class="flex flex-col justify-center">
-                    <span class="text-xs font-black uppercase tracking-wider text-amber-800 whitespace-nowrap">In Busta</span>
-                    <div class="text-3xl font-black ${isRowMatched ? 'text-amber-700' : 'text-rose-600'} mt-1">
-                      ${hBusta.toFixed(1).replace('.0', '')}<span class="text-base font-bold text-amber-500 ml-0.5">h</span>
+
+                  <!-- Divisore -->
+                  <div class="w-px h-10 bg-slate-200 flex-shrink-0"></div>
+
+                  <!-- In Busta -->
+                  <div class="flex-1 min-w-0 pl-1">
+                    <span class="text-[11px] font-black uppercase tracking-wider text-amber-800">In Busta</span>
+                    <div class="text-2xl font-black ${isRowMatched ? 'text-amber-700' : 'text-rose-600'} leading-tight mt-0.5">
+                      ${hBusta.toFixed(1).replace('.0', '')}<span class="text-xs font-bold text-amber-500 ml-0.5">h</span>
                     </div>
                   </div>
 
                   <!-- Tasti Azione: Fulmine ⚡ e Mod -->
                   <div class="flex items-center gap-1.5 flex-shrink-0">
-                    <button onclick="window.quickSyncHours('${item.id}', ${hReq})" class="w-10 h-10 rounded-2xl flex items-center justify-center transition active:scale-90 shadow-sm flex-shrink-0 ${isRowMatched ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 animate-pulse'}" title="Allinea subito a ${hReq}h">
-                      <i data-lucide="zap" class="w-5 h-5 fill-current"></i>
+                    <button onclick="window.quickSyncHours('${item.id}', ${hReq})" class="w-9 h-9 rounded-xl flex items-center justify-center transition active:scale-90 shadow-sm flex-shrink-0 ${isRowMatched ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 animate-pulse'}" title="Allinea subito a ${hReq}h">
+                      <i data-lucide="zap" class="w-4 h-4 fill-current"></i>
                     </button>
-                    <button onclick="window.openBustaModal('${item.id}', ${hReq}, ${hBusta}, '${dateP} - ${item.materia}')" class="h-10 px-3 text-xs font-black text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 rounded-2xl shadow-sm active:scale-95 transition flex items-center justify-center flex-shrink-0">
+                    <button onclick="window.openBustaModal('${item.id}', ${hReq}, ${hBusta}, '${dateP} - ${item.materia}')" class="h-9 px-2.5 text-xs font-black text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 rounded-xl shadow-sm active:scale-95 transition flex items-center justify-center flex-shrink-0">
                       Mod.
                     </button>
                   </div>
-                </div>
 
+                </div>
               </div>
 
               <div class="text-xs text-slate-400 font-medium px-1">
@@ -747,7 +750,7 @@
         return `
           <div class="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden w-full">
             
-            <!-- Accordion Header Ingrandito che Riempie lo Spazio -->
+            <!-- Accordion Header Ingrandito -->
             <div class="p-4 sm:p-5 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
               <button onclick="window.toggleAccordion('acc_${monthKey}')" class="flex-1 text-left flex items-center justify-between pr-3">
                 <div class="space-y-1">
@@ -771,7 +774,7 @@
               </button>
             </div>
 
-            <div id="acc_${monthKey}" class="${isOpen ? '' : 'hidden'} p-4 sm:p-5 bg-slate-100/50 space-y-4 w-full">
+            <div id="acc_${monthKey}" class="${isOpen ? '' : 'hidden'} p-4 sm:p-5 bg-slate-100/50 space-y-3.5 w-full">
               ${entriesCardsHtml}
             </div>
           </div>
