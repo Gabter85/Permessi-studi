@@ -36,16 +36,17 @@
       appearance: none;
       display: block;
       width: 100%;
-      min-width: 0;
-      background-color: #ffffff;
+      background-color: transparent;
+      border: none;
+      outline: none;
     }
 
-    /* Sliders Perfettamente Identici e Allineati */
+    /* Sliders Perfetti e Allineati */
     input[type=range] {
       -webkit-appearance: none;
       appearance: none;
       width: 100%;
-      height: 24px;
+      height: 20px;
       background: transparent;
       margin: 0;
       padding: 0;
@@ -57,13 +58,13 @@
     input[type=range]::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      height: 24px;
-      width: 24px;
+      height: 22px;
+      width: 22px;
       border-radius: 50%;
       background: #0284c7;
       cursor: pointer;
-      box-shadow: 0 2px 6px rgba(2, 132, 199, 0.4);
-      margin-top: -8px;
+      box-shadow: 0 2px 5px rgba(2, 132, 199, 0.4);
+      margin-top: -7px;
     }
     input[type=range]::-webkit-slider-runnable-track {
       width: 100%;
@@ -77,68 +78,68 @@
 <body class="text-slate-800 min-h-screen pb-28 w-full overflow-x-hidden">
 
   <!-- Header Stile ClasseViva -->
-  <header class="sticky top-0 z-30 bg-sky-700 text-white shadow-md px-4 py-3.5 w-full">
+  <header class="sticky top-0 z-30 bg-sky-700 text-white shadow-md px-4 py-3 w-full">
     <div class="max-w-md mx-auto flex items-center justify-between">
       <div class="flex items-center space-x-2.5">
-        <div class="w-10 h-10 rounded-2xl bg-white/15 border border-white/20 flex items-center justify-center font-bold shadow-inner">
-          <i data-lucide="graduation-cap" class="w-6 h-6 text-white"></i>
+        <div class="w-9 h-9 rounded-2xl bg-white/15 border border-white/20 flex items-center justify-center font-bold shadow-inner">
+          <i data-lucide="graduation-cap" class="w-5 h-5 text-white"></i>
         </div>
         <div>
-          <h1 class="text-base font-bold tracking-tight leading-tight">Permessi Studio 150h</h1>
-          <p class="text-xs text-sky-100 flex items-center gap-1.5" id="authIndicator">
+          <h1 class="text-sm font-bold tracking-tight leading-tight">Permessi Studio 150h</h1>
+          <p class="text-[11px] text-sky-100 flex items-center gap-1.5" id="authIndicator">
             <span class="w-2 h-2 rounded-full bg-amber-300 animate-pulse"></span> Connessione...
           </p>
         </div>
       </div>
 
-      <button id="btnOpenModalTop" class="bg-white text-sky-800 hover:bg-sky-50 text-xs font-bold px-3 py-2 rounded-xl flex items-center gap-1 shadow-sm active:scale-95 transition">
+      <button id="btnOpenModalTop" class="bg-white text-sky-800 hover:bg-sky-50 text-xs font-bold px-3 py-1.5 rounded-xl flex items-center gap-1 shadow-sm active:scale-95 transition">
         <i data-lucide="plus" class="w-4 h-4 stroke-[2.5]"></i>
         <span>Nuova Riga</span>
       </button>
     </div>
   </header>
 
-  <main class="max-w-md mx-auto px-4 pt-4 space-y-4 w-full overflow-x-hidden">
+  <main class="max-w-md mx-auto px-4 pt-3.5 space-y-3.5 w-full overflow-x-hidden">
 
     <!-- Cruscotto Totale Ingrandito -->
-    <section class="bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-5 shadow-sm space-y-4 w-full">
+    <section class="bg-white border border-slate-200/90 rounded-3xl p-4 shadow-sm space-y-3.5 w-full">
       <div class="flex items-center justify-between">
         <div>
-          <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Quadro Generale</span>
-          <h2 class="text-lg font-black text-slate-800 leading-tight">Riepilogo Totale Ore</h2>
+          <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Quadro Generale</span>
+          <h2 class="text-base font-black text-slate-800 leading-tight">Riepilogo Totale Ore</h2>
         </div>
-        <button id="btnEditTotal" class="text-xs text-sky-700 hover:text-sky-800 font-bold flex items-center gap-1 bg-sky-50 hover:bg-sky-100 px-2.5 py-1.5 rounded-xl border border-sky-200/80 transition">
-          <i data-lucide="sliders-horizontal" class="w-3.5 h-3.5"></i>
+        <button id="btnEditTotal" class="text-xs text-sky-700 hover:text-sky-800 font-bold flex items-center gap-1 bg-sky-50 hover:bg-sky-100 px-2.5 py-1 rounded-xl border border-sky-200/80 transition">
+          <i data-lucide="sliders-horizontal" class="w-3 h-3"></i>
           <span id="maxHoursLabel">Monte: 150h</span>
         </button>
       </div>
 
       <!-- Tre Box KPI -->
       <div class="grid grid-cols-3 gap-2 w-full">
-        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-2.5 text-center">
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-2 text-center">
           <div class="text-[10px] font-bold text-slate-500 uppercase">Richieste</div>
-          <div class="text-xl sm:text-2xl font-black text-slate-900 mt-1">
+          <div class="text-xl font-black text-slate-900 mt-0.5">
             <span id="totalRequested">0</span><span class="text-xs font-bold text-slate-400 ml-0.5">h</span>
           </div>
         </div>
 
-        <div class="bg-amber-50/80 border border-amber-200 rounded-2xl p-2.5 text-center">
+        <div class="bg-amber-50/80 border border-amber-200 rounded-2xl p-2 text-center">
           <div class="text-[10px] font-bold text-amber-800 uppercase">In Busta</div>
-          <div class="text-xl sm:text-2xl font-black text-amber-700 mt-1">
+          <div class="text-xl font-black text-amber-700 mt-0.5">
             <span id="totalInBusta">0</span><span class="text-xs font-bold text-amber-600 ml-0.5">h</span>
           </div>
         </div>
 
-        <div class="bg-emerald-50/80 border border-emerald-200 rounded-2xl p-2.5 text-center">
+        <div class="bg-emerald-50/80 border border-emerald-200 rounded-2xl p-2 text-center">
           <div class="text-[10px] font-bold text-emerald-800 uppercase">Residuo 150h</div>
-          <div class="text-xl sm:text-2xl font-black text-emerald-700 mt-1">
+          <div class="text-xl font-black text-emerald-700 mt-0.5">
             <span id="totalRemaining">150</span><span class="text-xs font-bold text-emerald-600 ml-0.5">h</span>
           </div>
         </div>
       </div>
 
       <!-- Barra di Avanzamento -->
-      <div class="space-y-1.5">
+      <div class="space-y-1">
         <div class="flex justify-between text-xs font-bold text-slate-600">
           <span>Consumo Plafond</span>
           <span id="percentageUsed" class="text-sky-700 font-extrabold">0%</span>
@@ -149,13 +150,13 @@
       </div>
 
       <!-- Banner Informativo Quadratura -->
-      <div id="reconciliationBanner" class="text-xs rounded-xl p-2.5 text-center font-bold bg-slate-100 text-slate-600 border border-slate-200 flex items-center justify-center gap-1.5">
+      <div id="reconciliationBanner" class="text-xs rounded-xl p-2 text-center font-bold bg-slate-100 text-slate-600 border border-slate-200 flex items-center justify-center gap-1.5">
         Nessun dato registrato
       </div>
     </section>
 
     <!-- Intestazione Archivio Mesi -->
-    <div class="flex items-center justify-between pt-1">
+    <div class="flex items-center justify-between pt-0.5">
       <div class="flex items-center gap-1.5 text-xs font-bold text-slate-600 uppercase tracking-wider">
         <i data-lucide="folder-clock" class="w-4 h-4 text-sky-700"></i>
         <span>Archivio Mensile</span>
@@ -178,31 +179,26 @@
 
   <!-- Pulsante Flottante (+) -->
   <div class="fixed bottom-6 right-5 z-40">
-    <button id="btnOpenModalFab" class="bg-sky-600 hover:bg-sky-700 text-white p-4 rounded-2xl shadow-xl shadow-sky-600/30 flex items-center justify-center transition transform active:scale-90 border-2 border-white">
+    <button id="btnOpenModalFab" class="bg-sky-600 hover:bg-sky-700 text-white p-3.5 rounded-2xl shadow-xl shadow-sky-600/30 flex items-center justify-center transition transform active:scale-90 border-2 border-white">
       <i data-lucide="plus" class="w-6 h-6 stroke-[2.5]"></i>
     </button>
   </div>
 
-  <!-- Modale Inserimento / Modifica Riga -->
-  <div id="entryModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-end sm:items-center justify-center p-0 sm:p-4 overflow-hidden">
-    <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-5 space-y-4 max-h-[92vh] overflow-y-auto overflow-x-hidden shadow-2xl border border-slate-200">
+  <!-- Modale Compatto a Schermata Singola -->
+  <div id="entryModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-end sm:items-center justify-center p-0 sm:p-3 overflow-hidden">
+    <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl px-4 py-3.5 space-y-3 shadow-2xl border border-slate-200 relative">
       
-      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
-        <div>
-          <h3 id="modalTitle" class="text-base font-bold text-slate-900">Nuova Riga Permesso</h3>
-          <p class="text-xs text-slate-500">Compila tutti i dettagli della giornata</p>
-        </div>
-        <button id="btnCloseModal" type="button" class="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg">
-          <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
-      </div>
+      <!-- Tasto di Chiusura Rapido in Alto a Destra -->
+      <button id="btnCloseModal" type="button" class="absolute top-3 right-3 text-slate-400 hover:text-slate-600 p-1.5 rounded-full bg-slate-100 hover:bg-slate-200 transition z-10">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
 
-      <form id="leaveForm" class="space-y-4 w-full">
+      <form id="leaveForm" class="space-y-2.5 w-full pt-1">
         
         <!-- Materia -->
-        <div class="space-y-1 w-full">
-          <label class="block text-xs font-bold text-slate-600 uppercase">Materia</label>
-          <select id="inputMateria" class="w-full bg-slate-50 border border-slate-300 rounded-2xl px-3.5 py-2.5 text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500">
+        <div class="space-y-0.5 w-full pr-8">
+          <label class="block text-[11px] font-black text-slate-500 uppercase tracking-wider">Materia</label>
+          <select id="inputMateria" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500">
             <option value="ECONOMIA AZIENDALE">ECONOMIA AZIENDALE</option>
             <option value="FRANCESE">FRANCESE</option>
             <option value="INGLESE">INGLESE</option>
@@ -214,58 +210,60 @@
           </select>
         </div>
 
-        <!-- Date: Due Schede Fisicamente Separate e Distanziate -->
-        <div class="grid grid-cols-2 gap-3 w-full">
-          <div class="bg-slate-50 border border-slate-300 rounded-2xl p-2.5 space-y-1 shadow-sm">
-            <label class="block text-[10px] font-black uppercase text-slate-500 tracking-wider">Data Permesso</label>
-            <input type="date" id="inputDate" required class="border border-slate-200 rounded-xl px-2 py-1.5 text-xs font-bold text-slate-800 text-center focus:ring-2 focus:ring-sky-500">
+        <!-- Date: Riquadri Separati Fisicamente con Margine e Sfondo Isolato -->
+        <div style="display: flex; gap: 10px; width: 100%;">
+          <div style="flex: 1; min-width: 0;" class="bg-slate-50 border border-slate-300 rounded-xl p-2 shadow-sm">
+            <label class="block text-[10px] font-black uppercase text-slate-500 tracking-wider mb-0.5 truncate">Data Permesso</label>
+            <input type="date" id="inputDate" required class="text-xs font-bold text-slate-800 text-center py-0.5">
           </div>
-          <div class="bg-slate-50 border border-slate-300 rounded-2xl p-2.5 space-y-1 shadow-sm">
-            <label class="block text-[10px] font-black uppercase text-slate-500 tracking-wider">Data Richiesta</label>
-            <input type="date" id="inputRequestDate" required class="border border-slate-200 rounded-xl px-2 py-1.5 text-xs font-bold text-slate-800 text-center focus:ring-2 focus:ring-sky-500">
+          <div style="flex: 1; min-width: 0;" class="bg-slate-50 border border-slate-300 rounded-xl p-2 shadow-sm">
+            <label class="block text-[10px] font-black uppercase text-slate-500 tracking-wider mb-0.5 truncate">Data Richiesta</label>
+            <input type="date" id="inputRequestDate" required class="text-xs font-bold text-slate-800 text-center py-0.5">
           </div>
         </div>
 
         <!-- Orario Uscita Lavoro -->
-        <div class="space-y-1.5 w-full">
-          <label class="block text-xs font-bold text-slate-600 uppercase">Orario Uscita da Lavoro</label>
-          <div class="grid grid-cols-3 gap-2 w-full">
-            <input type="time" id="inputWorkExitTime" value="13:00" required class="w-full border border-slate-300 rounded-2xl px-2 py-2 text-xs font-black text-slate-800 text-center focus:ring-2 focus:ring-sky-500 shadow-sm">
-            <button type="button" onclick="document.getElementById('inputWorkExitTime').value='13:00'" class="w-full py-2 text-xs font-bold bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-2xl text-slate-700 active:scale-95 transition">13:00</button>
-            <button type="button" onclick="document.getElementById('inputWorkExitTime').value='15:00'" class="w-full py-2 text-xs font-bold bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-2xl text-slate-700 active:scale-95 transition">15:00</button>
+        <div class="space-y-0.5 w-full">
+          <label class="block text-[11px] font-black text-slate-500 uppercase tracking-wider">Orario Uscita Lavoro</label>
+          <div style="display: flex; gap: 8px; width: 100%;">
+            <div style="flex: 1.5; min-width: 0;" class="bg-slate-50 border border-slate-300 rounded-xl px-2 py-1.5 shadow-sm">
+              <input type="time" id="inputWorkExitTime" value="13:00" required class="text-xs font-black text-slate-800 text-center py-0.5">
+            </div>
+            <button type="button" onclick="document.getElementById('inputWorkExitTime').value='13:00'" style="flex: 1;" class="py-1.5 text-xs font-bold bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-xl text-slate-700 active:scale-95 transition">13:00</button>
+            <button type="button" onclick="document.getElementById('inputWorkExitTime').value='15:00'" style="flex: 1;" class="py-1.5 text-xs font-bold bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-xl text-slate-700 active:scale-95 transition">15:00</button>
           </div>
         </div>
 
-        <!-- Box Sliders Ore Speculari e Allineati -->
-        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-4 w-full">
+        <!-- Box Sliders Compatto e Speculare (0.5h - 8h) -->
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-2.5 space-y-2.5 w-full">
           
           <!-- Slider 1: Ore Richieste -->
-          <div class="space-y-2 w-full">
+          <div class="space-y-1 w-full">
             <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-slate-700 uppercase">Ore Richieste</span>
-              <span class="text-xs font-black text-sky-800 bg-sky-100 border border-sky-200 px-2.5 py-0.5 rounded-lg">
+              <span class="text-[11px] font-bold text-slate-700 uppercase">Ore Richieste</span>
+              <span class="text-xs font-black text-sky-800 bg-sky-100 border border-sky-200 px-2 py-0.5 rounded-lg">
                 <span id="formHoursReqLabel">2.5</span> h
               </span>
             </div>
             <input type="range" id="inputHoursReqSlider" min="0.5" max="8" step="0.5" value="2.5" class="w-full">
             <div class="flex justify-between text-[10px] text-slate-400 font-bold px-0.5">
               <span>0.5h</span>
-              <span>2.0h</span>
-              <span>4.0h</span>
-              <span>6.0h</span>
-              <span>8.0h</span>
+              <span>2h</span>
+              <span>4h</span>
+              <span>6h</span>
+              <span>8h</span>
             </div>
           </div>
 
           <div class="border-t border-slate-200"></div>
 
           <!-- Slider 2: Ore in Busta Paga -->
-          <div class="space-y-2 w-full">
+          <div class="space-y-1 w-full">
             <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-slate-700 uppercase">Ore in Busta Paga</span>
+              <span class="text-[11px] font-bold text-slate-700 uppercase">Ore in Busta</span>
               <div class="flex items-center gap-2">
                 <button type="button" id="btnMatchHours" class="text-[11px] text-sky-700 font-bold underline">Copia Richieste</button>
-                <span class="text-xs font-black text-amber-800 bg-amber-100 border border-amber-200 px-2.5 py-0.5 rounded-lg">
+                <span class="text-xs font-black text-amber-800 bg-amber-100 border border-amber-200 px-2 py-0.5 rounded-lg">
                   <span id="formHoursBustaLabel">2.5</span> h
                 </span>
               </div>
@@ -273,46 +271,40 @@
             <input type="range" id="inputHoursBustaSlider" min="0.5" max="8" step="0.5" value="2.5" class="w-full">
             <div class="flex justify-between text-[10px] text-slate-400 font-bold px-0.5">
               <span>0.5h</span>
-              <span>2.0h</span>
-              <span>4.0h</span>
-              <span>6.0h</span>
-              <span>8.0h</span>
+              <span>2h</span>
+              <span>4h</span>
+              <span>6h</span>
+              <span>8h</span>
             </div>
           </div>
 
         </div>
 
-        <!-- 2 Tasti Grandi Full-Width -->
-        <div class="space-y-2.5 pt-1 w-full">
-          <button type="button" id="btnToggleConfirmed" class="w-full p-3.5 rounded-2xl flex items-center justify-between font-bold text-sm transition active:scale-[0.98] border-2">
-            <div class="flex items-center gap-3 text-left">
-              <div id="iconBoxConfirmed" class="w-9 h-9 rounded-xl flex items-center justify-center">
-                <i data-lucide="check" class="w-5 h-5"></i>
+        <!-- 2 Tasti Interattivi Più Compatti -->
+        <div class="space-y-1.5 w-full">
+          <button type="button" id="btnToggleConfirmed" class="w-full p-2.5 rounded-xl flex items-center justify-between font-bold text-xs transition active:scale-[0.98] border-2">
+            <div class="flex items-center gap-2 text-left">
+              <div id="iconBoxConfirmed" class="w-6 h-6 rounded-lg flex items-center justify-center">
+                <i data-lucide="check" class="w-3.5 h-3.5"></i>
               </div>
-              <div>
-                <div class="text-sm font-bold text-slate-900">Conferma Aziendale</div>
-                <div class="text-[11px] font-normal text-slate-500">Autorizzazione via email</div>
-              </div>
+              <span class="text-xs font-bold text-slate-900">Conferma Aziendale (Email)</span>
             </div>
-            <span id="badgeConfirmed" class="text-xs px-3 py-1 rounded-lg uppercase tracking-wider font-extrabold">CONFERMATA</span>
+            <span id="badgeConfirmed" class="text-[10px] px-2 py-0.5 rounded-md uppercase font-extrabold">CONFERMATA</span>
           </button>
 
-          <button type="button" id="btnToggleJustified" class="w-full p-3.5 rounded-2xl flex items-center justify-between font-bold text-sm transition active:scale-[0.98] border-2">
-            <div class="flex items-center gap-3 text-left">
-              <div id="iconBoxJustified" class="w-9 h-9 rounded-xl flex items-center justify-center">
-                <i data-lucide="file-check-2" class="w-5 h-5"></i>
+          <button type="button" id="btnToggleJustified" class="w-full p-2.5 rounded-xl flex items-center justify-between font-bold text-xs transition active:scale-[0.98] border-2">
+            <div class="flex items-center gap-2 text-left">
+              <div id="iconBoxJustified" class="w-6 h-6 rounded-lg flex items-center justify-center">
+                <i data-lucide="file-check-2" class="w-3.5 h-3.5"></i>
               </div>
-              <div>
-                <div class="text-sm font-bold text-slate-900">Attestato Scuola</div>
-                <div class="text-[11px] font-normal text-slate-500">Certificato di frequenza</div>
-              </div>
+              <span class="text-xs font-bold text-slate-900">Attestato Scuola</span>
             </div>
-            <span id="badgeJustified" class="text-xs px-3 py-1 rounded-lg uppercase tracking-wider font-extrabold">DA DARE</span>
+            <span id="badgeJustified" class="text-[10px] px-2 py-0.5 rounded-md uppercase font-extrabold">DA DARE</span>
           </button>
         </div>
 
         <!-- Tasto Salva Finale -->
-        <button type="submit" id="btnSubmitForm" class="w-full bg-sky-700 hover:bg-sky-800 text-white font-black py-4 rounded-2xl shadow-lg shadow-sky-700/25 active:scale-98 transition text-sm uppercase tracking-wider">
+        <button type="submit" id="btnSubmitForm" class="w-full bg-sky-700 hover:bg-sky-800 text-white font-black py-3 rounded-xl shadow-md shadow-sky-700/25 active:scale-98 transition text-xs uppercase tracking-wider">
           Salva Riga Permesso
         </button>
       </form>
@@ -377,30 +369,30 @@
 
     function updateModalButtons() {
       if (currentConfirmedState) {
-        btnToggleConfirmed.className = "w-full p-3.5 rounded-2xl flex items-center justify-between font-bold text-sm transition active:scale-[0.98] border-2 bg-emerald-50 border-emerald-500 text-emerald-900";
-        iconBoxConfirmed.className = "w-9 h-9 rounded-xl flex items-center justify-center bg-emerald-500 text-white shadow-sm";
-        iconBoxConfirmed.innerHTML = `<i data-lucide="check" class="w-5 h-5 stroke-[3]"></i>`;
-        badgeConfirmed.className = "text-xs px-3 py-1 rounded-lg uppercase tracking-wider font-extrabold bg-emerald-200 text-emerald-900";
+        btnToggleConfirmed.className = "w-full p-2.5 rounded-xl flex items-center justify-between font-bold text-xs transition active:scale-[0.98] border-2 bg-emerald-50 border-emerald-500 text-emerald-900";
+        iconBoxConfirmed.className = "w-6 h-6 rounded-lg flex items-center justify-center bg-emerald-500 text-white shadow-sm";
+        iconBoxConfirmed.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 stroke-[3]"></i>`;
+        badgeConfirmed.className = "text-[10px] px-2 py-0.5 rounded-md uppercase font-extrabold bg-emerald-200 text-emerald-900";
         badgeConfirmed.innerText = "CONFERMATA";
       } else {
-        btnToggleConfirmed.className = "w-full p-3.5 rounded-2xl flex items-center justify-between font-bold text-sm transition active:scale-[0.98] border-2 bg-slate-50 border-slate-300 text-slate-700";
-        iconBoxConfirmed.className = "w-9 h-9 rounded-xl flex items-center justify-center bg-slate-200 text-slate-500";
-        iconBoxConfirmed.innerHTML = `<i data-lucide="clock" class="w-5 h-5"></i>`;
-        badgeConfirmed.className = "text-xs px-3 py-1 rounded-lg uppercase tracking-wider font-extrabold bg-slate-200 text-slate-600";
+        btnToggleConfirmed.className = "w-full p-2.5 rounded-xl flex items-center justify-between font-bold text-xs transition active:scale-[0.98] border-2 bg-slate-50 border-slate-300 text-slate-700";
+        iconBoxConfirmed.className = "w-6 h-6 rounded-lg flex items-center justify-center bg-slate-200 text-slate-500";
+        iconBoxConfirmed.innerHTML = `<i data-lucide="clock" class="w-3.5 h-3.5"></i>`;
+        badgeConfirmed.className = "text-[10px] px-2 py-0.5 rounded-md uppercase font-extrabold bg-slate-200 text-slate-600";
         badgeConfirmed.innerText = "IN ATTESA";
       }
 
       if (currentJustifiedState) {
-        btnToggleJustified.className = "w-full p-3.5 rounded-2xl flex items-center justify-between font-bold text-sm transition active:scale-[0.98] border-2 bg-sky-50 border-sky-500 text-sky-900";
-        iconBoxJustified.className = "w-9 h-9 rounded-xl flex items-center justify-center bg-sky-600 text-white shadow-sm";
-        iconBoxJustified.innerHTML = `<i data-lucide="file-check-2" class="w-5 h-5"></i>`;
-        badgeJustified.className = "text-xs px-3 py-1 rounded-lg uppercase tracking-wider font-extrabold bg-sky-200 text-sky-900";
+        btnToggleJustified.className = "w-full p-2.5 rounded-xl flex items-center justify-between font-bold text-xs transition active:scale-[0.98] border-2 bg-sky-50 border-sky-500 text-sky-900";
+        iconBoxJustified.className = "w-6 h-6 rounded-lg flex items-center justify-center bg-sky-600 text-white shadow-sm";
+        iconBoxJustified.innerHTML = `<i data-lucide="file-check-2" class="w-3.5 h-3.5"></i>`;
+        badgeJustified.className = "text-[10px] px-2 py-0.5 rounded-md uppercase font-extrabold bg-sky-200 text-sky-900";
         badgeJustified.innerText = "CONSEGNATO";
       } else {
-        btnToggleJustified.className = "w-full p-3.5 rounded-2xl flex items-center justify-between font-bold text-sm transition active:scale-[0.98] border-2 bg-slate-50 border-slate-300 text-slate-700";
-        iconBoxJustified.className = "w-9 h-9 rounded-xl flex items-center justify-center bg-slate-200 text-slate-500";
-        iconBoxJustified.innerHTML = `<i data-lucide="file" class="w-5 h-5"></i>`;
-        badgeJustified.className = "text-xs px-3 py-1 rounded-lg uppercase tracking-wider font-extrabold bg-slate-200 text-slate-600";
+        btnToggleJustified.className = "w-full p-2.5 rounded-xl flex items-center justify-between font-bold text-xs transition active:scale-[0.98] border-2 bg-slate-50 border-slate-300 text-slate-700";
+        iconBoxJustified.className = "w-6 h-6 rounded-lg flex items-center justify-center bg-slate-200 text-slate-500";
+        iconBoxJustified.innerHTML = `<i data-lucide="file" class="w-3.5 h-3.5"></i>`;
+        badgeJustified.className = "text-[10px] px-2 py-0.5 rounded-md uppercase font-extrabold bg-slate-200 text-slate-600";
         badgeJustified.innerText = "DA DARE";
       }
       lucide.createIcons();
@@ -468,18 +460,18 @@
 
       const banner = document.getElementById('reconciliationBanner');
       if (currentEntries.length === 0) {
-        banner.className = "text-xs rounded-xl p-2.5 text-center font-bold bg-slate-100 text-slate-500 border border-slate-200 flex items-center justify-center gap-1.5";
+        banner.className = "text-xs rounded-xl p-2 text-center font-bold bg-slate-100 text-slate-500 border border-slate-200 flex items-center justify-center gap-1.5";
         banner.innerHTML = `<i data-lucide="info" class="w-4 h-4 text-slate-400"></i> Nessun permesso registrato`;
       } else {
         const diff = totBusta - totReq;
         if (Math.abs(diff) < 0.01) {
-          banner.className = "text-xs rounded-xl p-2.5 text-center font-bold bg-emerald-50 border border-emerald-200 text-emerald-700 flex items-center justify-center gap-1.5";
+          banner.className = "text-xs rounded-xl p-2 text-center font-bold bg-emerald-50 border border-emerald-200 text-emerald-700 flex items-center justify-center gap-1.5";
           banner.innerHTML = `<i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i> Quadratura perfetta: ${totReq}h richieste = ${totBusta}h in busta`;
         } else if (diff < 0) {
-          banner.className = "text-xs rounded-xl p-2.5 text-center font-bold bg-rose-50 border border-rose-200 text-rose-700 flex items-center justify-center gap-1.5";
+          banner.className = "text-xs rounded-xl p-2 text-center font-bold bg-rose-50 border border-rose-200 text-rose-700 flex items-center justify-center gap-1.5";
           banner.innerHTML = `<i data-lucide="alert-triangle" class="w-4 h-4 text-rose-600"></i> Attenzione: mancano ${Math.abs(diff).toFixed(1)}h in busta rispetto a quelle richieste!`;
         } else {
-          banner.className = "text-xs rounded-xl p-2.5 text-center font-bold bg-amber-50 border border-amber-200 text-amber-800 flex items-center justify-center gap-1.5";
+          banner.className = "text-xs rounded-xl p-2 text-center font-bold bg-amber-50 border border-amber-200 text-amber-800 flex items-center justify-center gap-1.5";
           banner.innerHTML = `<i data-lucide="info" class="w-4 h-4 text-amber-600"></i> +${diff.toFixed(1)}h in piu segnate sul cedolino`;
         }
       }
@@ -531,14 +523,14 @@
           const isJust = item.justified === true;
 
           return `
-            <div class="bg-white border border-slate-200/90 rounded-2xl p-3.5 shadow-sm space-y-3 w-full">
-              <div class="flex items-start justify-between gap-2 border-b border-slate-100 pb-2">
+            <div class="bg-white border border-slate-200/90 rounded-2xl p-3 shadow-sm space-y-2.5 w-full">
+              <div class="flex items-start justify-between gap-2 border-b border-slate-100 pb-1.5">
                 <div>
                   <div class="text-sm font-black text-slate-900">${dateP}</div>
                   <div class="text-xs font-bold text-sky-700 uppercase tracking-tight mt-0.5">${item.materia || 'MATERIA'}</div>
                 </div>
                 <div class="flex items-center gap-1.5">
-                  <span class="text-xs font-semibold text-slate-600 bg-slate-100 px-2.5 py-1 rounded-lg">
+                  <span class="text-xs font-semibold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-lg">
                     Uscita: <strong class="text-slate-900 font-mono">${item.workExitTime || '--:--'}</strong>
                   </span>
                   <button onclick="window.editEntryModal('${item.id}')" class="text-sky-700 hover:bg-sky-50 p-1.5 rounded-lg border border-sky-100 transition" title="Modifica">
@@ -550,33 +542,33 @@
                 </div>
               </div>
 
-              <div class="grid grid-cols-2 gap-2 bg-slate-50 border border-slate-200/80 rounded-xl p-2.5 w-full">
+              <div class="grid grid-cols-2 gap-2 bg-slate-50 border border-slate-200/80 rounded-xl p-2 w-full">
                 <div>
                   <div class="text-[10px] font-bold uppercase text-slate-500">Ore Richieste</div>
-                  <div class="text-lg font-black text-slate-900 mt-0.5">
+                  <div class="text-base font-black text-slate-900 mt-0.5">
                     ${hReq.toFixed(1).replace('.0', '')}<span class="text-xs font-medium text-slate-500 ml-0.5">h</span>
                   </div>
                 </div>
                 <div class="border-l border-slate-200 pl-3">
                   <div class="text-[10px] font-bold uppercase text-amber-800">Ore In Busta</div>
-                  <div class="text-lg font-black ${Math.abs(hReq - hBusta) < 0.01 ? 'text-amber-700' : 'text-rose-600'} mt-0.5">
+                  <div class="text-base font-black ${Math.abs(hReq - hBusta) < 0.01 ? 'text-amber-700' : 'text-rose-600'} mt-0.5">
                     ${hBusta.toFixed(1).replace('.0', '')}<span class="text-xs font-medium text-slate-500 ml-0.5">h</span>
                   </div>
                 </div>
               </div>
 
-              <div class="text-[11px] text-slate-400">
+              <div class="text-[10px] text-slate-400">
                 Richiesta inviata il: <strong class="text-slate-600">${dateR}</strong>
               </div>
 
               <div class="flex flex-wrap items-center gap-2 pt-1 border-t border-slate-100 w-full">
-                <button onclick="window.toggleConfirm('${item.id}', ${!isConf})" class="flex-1 text-xs py-1.5 px-2 rounded-xl font-bold flex items-center justify-center gap-1.5 transition ${isConf ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-slate-100 text-slate-500 border border-slate-200'}">
-                  <i data-lucide="${isConf ? 'check-circle-2' : 'circle'}" class="w-3.5 h-3.5"></i>
+                <button onclick="window.toggleConfirm('${item.id}', ${!isConf})" class="flex-1 text-[11px] py-1 px-2 rounded-xl font-bold flex items-center justify-center gap-1.5 transition ${isConf ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-slate-100 text-slate-500 border border-slate-200'}">
+                  <i data-lucide="${isConf ? 'check-circle-2' : 'circle'}" class="w-3 h-3"></i>
                   <span>${isConf ? 'Confermata' : 'In attesa'}</span>
                 </button>
 
-                <button onclick="window.toggleJustify('${item.id}', ${!isJust})" class="flex-1 text-xs py-1.5 px-2 rounded-xl font-bold flex items-center justify-center gap-1.5 transition ${isJust ? 'bg-sky-50 text-sky-700 border border-sky-200' : 'bg-slate-100 text-slate-400 border border-slate-200'}">
-                  <i data-lucide="${isJust ? 'file-check-2' : 'file'}" class="w-4 h-4"></i>
+                <button onclick="window.toggleJustify('${item.id}', ${!isJust})" class="flex-1 text-[11px] py-1 px-2 rounded-xl font-bold flex items-center justify-center gap-1.5 transition ${isJust ? 'bg-sky-50 text-sky-700 border border-sky-200' : 'bg-slate-100 text-slate-400 border border-slate-200'}">
+                  <i data-lucide="${isJust ? 'file-check-2' : 'file'}" class="w-3 h-3"></i>
                   <span>${isJust ? 'Consegnato' : 'Da dare'}</span>
                 </button>
               </div>
@@ -586,7 +578,7 @@
 
         return `
           <div class="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden w-full">
-            <div class="p-3.5 bg-slate-50/90 border-b border-slate-200/80 flex items-center justify-between">
+            <div class="p-3 bg-slate-50/90 border-b border-slate-200/80 flex items-center justify-between">
               <button onclick="window.toggleAccordion('acc_${monthKey}')" class="flex-1 text-left flex items-center justify-between pr-2">
                 <div class="space-y-0.5">
                   <div class="text-sm font-black text-slate-900">${capMonthName}</div>
@@ -609,7 +601,7 @@
               </button>
             </div>
 
-            <div id="acc_${monthKey}" class="${isOpen ? '' : 'hidden'} p-3.5 bg-slate-100/50 space-y-3 w-full">
+            <div id="acc_${monthKey}" class="${isOpen ? '' : 'hidden'} p-3 bg-slate-100/50 space-y-2.5 w-full">
               ${entriesCardsHtml}
             </div>
           </div>
@@ -632,7 +624,6 @@
       if (!item) return;
 
       editingEntryId = id;
-      document.getElementById('modalTitle').innerText = "Modifica Riga Permesso";
       document.getElementById('btnSubmitForm').innerText = "Salva Modifiche";
 
       document.getElementById('inputMateria').value = item.materia || 'ECONOMIA AZIENDALE';
@@ -657,7 +648,6 @@
 
     function openNewEntryModal() {
       editingEntryId = null;
-      document.getElementById('modalTitle').innerText = "Nuova Riga Permesso";
       document.getElementById('btnSubmitForm').innerText = "Salva Riga Permesso";
       document.getElementById('leaveForm').reset();
       
