@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it" class="w-full overflow-x-hidden">
+<html lang="it" style="overflow-x: hidden; max-width: 100vw; width: 100%;">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -18,8 +18,8 @@
       touch-action: manipulation;
     }
     html, body {
-      width: 100%;
-      max-width: 100vw;
+      width: 100% !important;
+      max-width: 100vw !important;
       overflow-x: hidden !important;
       position: relative;
       background-color: #f8fafc;
@@ -29,12 +29,12 @@
       padding: 0;
     }
 
-    /* Slider Personalizzato Allineato */
+    /* Sliders Perfettamente Identici e Allineati */
     input[type=range] {
       -webkit-appearance: none;
       appearance: none;
       width: 100%;
-      height: 28px;
+      height: 24px;
       background: transparent;
       margin: 0;
       padding: 0;
@@ -51,7 +51,7 @@
       border-radius: 50%;
       background: #0284c7;
       cursor: pointer;
-      box-shadow: 0 2px 5px rgba(2, 132, 199, 0.4);
+      box-shadow: 0 2px 6px rgba(2, 132, 199, 0.4);
       margin-top: -8px;
     }
     input[type=range]::-webkit-slider-runnable-track {
@@ -173,7 +173,7 @@
   </div>
 
   <!-- Modale Inserimento / Modifica Riga -->
-  <div id="entryModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-end sm:items-center justify-center p-0 sm:p-4 overflow-x-hidden">
+  <div id="entryModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-end sm:items-center justify-center p-0 sm:p-4 overflow-hidden">
     <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-5 space-y-4 max-h-[92vh] overflow-y-auto overflow-x-hidden shadow-2xl border border-slate-200">
       
       <div class="flex items-center justify-between pb-3 border-b border-slate-100">
@@ -203,55 +203,57 @@
           </select>
         </div>
 
-        <!-- Date Permesso & Richiesta (Separati e Ben Distanziati) -->
-        <div class="flex gap-3 w-full">
-          <div class="flex-1 min-w-0">
-            <label class="block text-xs font-bold text-slate-600 uppercase mb-1 truncate">Data Permesso</label>
-            <input type="date" id="inputDate" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-2 text-xs font-bold text-slate-800 text-center focus:ring-2 focus:ring-sky-500 shadow-sm">
+        <!-- Date Permesso & Richiesta (Griglia Separata senza Sovrapposizioni) -->
+        <div class="grid grid-cols-2 gap-3 w-full">
+          <div class="space-y-1 w-full">
+            <label class="block text-xs font-bold text-slate-600 uppercase truncate">Data Permesso</label>
+            <input type="date" id="inputDate" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-bold text-slate-800 text-center focus:ring-2 focus:ring-sky-500">
           </div>
-          <div class="flex-1 min-w-0">
-            <label class="block text-xs font-bold text-slate-600 uppercase mb-1 truncate">Data Richiesta</label>
-            <input type="date" id="inputRequestDate" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-2 text-xs font-bold text-slate-800 text-center focus:ring-2 focus:ring-sky-500 shadow-sm">
+          <div class="space-y-1 w-full">
+            <label class="block text-xs font-bold text-slate-600 uppercase truncate">Data Richiesta</label>
+            <input type="date" id="inputRequestDate" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-bold text-slate-800 text-center focus:ring-2 focus:ring-sky-500">
           </div>
         </div>
 
-        <!-- Orario Uscita Lavoro -->
+        <!-- Orario Uscita Lavoro (Unico Input + Scorciatoie chiare) -->
         <div class="space-y-1.5 w-full">
           <label class="block text-xs font-bold text-slate-600 uppercase">Orario Uscita da Lavoro</label>
-          <div class="flex gap-2 w-full">
-            <input type="time" id="inputWorkExitTime" value="13:00" required class="flex-1 bg-slate-50 border border-slate-300 rounded-xl px-2 py-2 text-xs font-black text-slate-800 text-center focus:ring-2 focus:ring-sky-500">
-            <button type="button" onclick="document.getElementById('inputWorkExitTime').value='13:00'" class="px-3.5 py-2 text-xs font-bold bg-slate-100 border border-slate-300 rounded-xl text-slate-700 active:bg-slate-200">13:00</button>
-            <button type="button" onclick="document.getElementById('inputWorkExitTime').value='15:00'" class="px-3.5 py-2 text-xs font-bold bg-slate-100 border border-slate-300 rounded-xl text-slate-700 active:bg-slate-200">15:00</button>
+          <div class="flex items-center gap-2 w-full">
+            <input type="time" id="inputWorkExitTime" value="13:00" required class="flex-1 bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-black text-slate-800 text-center focus:ring-2 focus:ring-sky-500">
+            <div class="flex items-center gap-1.5">
+              <button type="button" onclick="document.getElementById('inputWorkExitTime').value='13:00'" class="px-3 py-2 text-xs font-bold bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-xl text-slate-700 transition">13:00</button>
+              <button type="button" onclick="document.getElementById('inputWorkExitTime').value='15:00'" class="px-3 py-2 text-xs font-bold bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-xl text-slate-700 transition">15:00</button>
+            </div>
           </div>
         </div>
 
-        <!-- Box Sliders Ore Allineati e Speculari -->
-        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3.5 space-y-4 w-full">
+        <!-- Box Sliders Ore Perfettamente Speculari (0h - 8h) -->
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-4 w-full">
           
-          <!-- Slider Ore Richieste -->
-          <div class="space-y-1.5 w-full">
+          <!-- Slider 1: Ore Richieste -->
+          <div class="space-y-2 w-full">
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold text-slate-700 uppercase">Ore Richieste</span>
               <span class="text-xs font-black text-sky-800 bg-sky-100 border border-sky-200 px-2.5 py-0.5 rounded-lg">
                 <span id="formHoursReqLabel">2.5</span> h
               </span>
             </div>
-            <div class="px-1">
-              <input type="range" id="inputHoursReqSlider" min="0.5" max="8" step="0.5" value="2.5" class="w-full">
-              <div class="flex justify-between text-[11px] text-slate-400 font-bold mt-1 px-1">
-                <span>0.5h</span>
-                <span>2.0h</span>
-                <span>4.0h</span>
-                <span>6.0h</span>
-                <span>8.0h</span>
-              </div>
+            <input type="range" id="inputHoursReqSlider" min="0" max="8" step="0.5" value="2.5" class="w-full">
+            <div class="flex justify-between text-[11px] text-slate-400 font-bold px-0.5">
+              <span>0h</span>
+              <span>2h</span>
+              <span>4h</span>
+              <span>6h</span>
+              <span>8h</span>
             </div>
           </div>
 
-          <!-- Slider Ore In Busta -->
-          <div class="space-y-1.5 w-full pt-3 border-t border-slate-200">
+          <div class="border-t border-slate-200"></div>
+
+          <!-- Slider 2: Ore in Busta Paga -->
+          <div class="space-y-2 w-full">
             <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-slate-700 uppercase">Ore in Busta</span>
+              <span class="text-xs font-bold text-slate-700 uppercase">Ore in Busta Paga</span>
               <div class="flex items-center gap-2">
                 <button type="button" id="btnMatchHours" class="text-[11px] text-sky-700 font-bold underline">Copia Richieste</button>
                 <span class="text-xs font-black text-amber-800 bg-amber-100 border border-amber-200 px-2.5 py-0.5 rounded-lg">
@@ -259,15 +261,13 @@
                 </span>
               </div>
             </div>
-            <div class="px-1">
-              <input type="range" id="inputHoursBustaSlider" min="0.5" max="8" step="0.5" value="2.5" class="w-full">
-              <div class="flex justify-between text-[11px] text-slate-400 font-bold mt-1 px-1">
-                <span>0.5h</span>
-                <span>2.0h</span>
-                <span>4.0h</span>
-                <span>6.0h</span>
-                <span>8.0h</span>
-              </div>
+            <input type="range" id="inputHoursBustaSlider" min="0" max="8" step="0.5" value="2.5" class="w-full">
+            <div class="flex justify-between text-[11px] text-slate-400 font-bold px-0.5">
+              <span>0h</span>
+              <span>2h</span>
+              <span>4h</span>
+              <span>6h</span>
+              <span>8h</span>
             </div>
           </div>
 
@@ -631,7 +631,7 @@
       document.getElementById('inputRequestDate').value = item.requestDate || item.date;
       document.getElementById('inputWorkExitTime').value = item.workExitTime || '13:00';
 
-      const hReq = item.hours || 2.5;
+      const hReq = item.hours !== undefined ? item.hours : 2.5;
       const hBusta = item.hoursBusta !== undefined ? item.hoursBusta : hReq;
 
       sliderReq.value = hReq;
