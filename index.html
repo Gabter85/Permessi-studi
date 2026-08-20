@@ -75,7 +75,7 @@
 </head>
 <body class="text-slate-800 min-h-screen pb-28 w-full overflow-x-hidden">
 
-  <!-- Header Minimale (Come da Schizzo) -->
+  <!-- Header Minimale -->
   <header class="sticky top-0 z-30 bg-sky-700 text-white shadow-md px-4 py-3.5 w-full">
     <div class="max-w-md mx-auto flex items-center justify-between">
       <div>
@@ -94,61 +94,66 @@
 
   <main class="max-w-md mx-auto px-4 pt-4 space-y-4 w-full overflow-x-hidden">
 
-    <!-- Dashboard Principale (Layout identico allo Schizzo) -->
-    <section class="bg-white border border-slate-200 rounded-3xl p-4 sm:p-5 shadow-sm space-y-4 w-full">
+    <!-- Dashboard Grande a Mezza Pagina -->
+    <section class="bg-white border border-slate-200/90 rounded-3xl p-5 shadow-sm space-y-5 w-full">
       
-      <!-- Riga Monte Ore in Alto a Destra -->
-      <div class="flex justify-end items-center">
-        <button id="btnEditTotal" class="text-xs text-sky-700 hover:text-sky-800 font-black flex items-center gap-1.5 bg-sky-50 hover:bg-sky-100 px-3 py-1.5 rounded-xl border border-sky-200 transition">
+      <!-- Riga Superiore: Badge Quadratura a SX | Tasto Monte a DX -->
+      <div class="flex items-center justify-between gap-2">
+        <div id="statusBadge" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black bg-emerald-100 text-emerald-800 border border-emerald-300">
+          <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i>
+          <span id="statusBadgeText">CONTEGGI OK</span>
+        </div>
+
+        <button id="btnEditTotal" class="text-xs text-sky-700 hover:text-sky-800 font-black flex items-center gap-1.5 bg-sky-50 hover:bg-sky-100 px-3 py-1.5 rounded-xl border border-sky-200 transition shadow-sm">
           <i data-lucide="sliders-horizontal" class="w-3.5 h-3.5"></i>
           <span id="maxHoursLabel">Monte: 150h</span>
         </button>
       </div>
 
-      <!-- 3 Riquadri Grandi: RICHIESTA | BUSTA | RESIDUO -->
+      <!-- 3 Box KPI Grandi (Richiesta, Busta, Residuo) -->
       <div class="grid grid-cols-3 gap-2.5 w-full">
         
         <!-- 1. Richiesta -->
-        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3 text-center flex flex-col justify-center min-h-[90px]">
-          <span class="text-[11px] font-black text-slate-400 uppercase tracking-wider">Richiesta</span>
-          <div class="text-2xl font-black text-slate-900 mt-1">
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl py-4 px-2 text-center flex flex-col justify-center min-h-[105px] shadow-sm">
+          <span class="text-xs font-black text-slate-400 uppercase tracking-wider">Richiesta</span>
+          <div class="text-3xl font-black text-slate-900 mt-1.5">
             <span id="totalRequested">0</span><span class="text-xs font-bold text-slate-400 ml-0.5">h</span>
           </div>
         </div>
 
         <!-- 2. Busta -->
-        <div class="bg-amber-50/80 border border-amber-200 rounded-2xl p-3 text-center flex flex-col justify-center min-h-[90px]">
-          <span class="text-[11px] font-black text-amber-800 uppercase tracking-wider">Busta</span>
-          <div class="text-2xl font-black text-amber-700 mt-1">
+        <div class="bg-amber-50/80 border border-amber-200 rounded-2xl py-4 px-2 text-center flex flex-col justify-center min-h-[105px] shadow-sm">
+          <span class="text-xs font-black text-amber-800 uppercase tracking-wider">Busta</span>
+          <div class="text-3xl font-black text-amber-700 mt-1.5">
             <span id="totalInBusta">0</span><span class="text-xs font-bold text-amber-600 ml-0.5">h</span>
           </div>
         </div>
 
         <!-- 3. Residuo -->
-        <div class="bg-emerald-50/80 border border-emerald-200 rounded-2xl p-3 text-center flex flex-col justify-center min-h-[90px]">
-          <span class="text-[11px] font-black text-emerald-800 uppercase tracking-wider">Residuo</span>
-          <div class="text-2xl font-black text-emerald-700 mt-1">
+        <div class="bg-emerald-50/80 border border-emerald-200 rounded-2xl py-4 px-2 text-center flex flex-col justify-center min-h-[105px] shadow-sm">
+          <span class="text-xs font-black text-emerald-800 uppercase tracking-wider">Residuo</span>
+          <div class="text-3xl font-black text-emerald-700 mt-1.5">
             <span id="totalRemaining">150</span><span class="text-xs font-bold text-emerald-600 ml-0.5">h</span>
           </div>
         </div>
 
       </div>
 
-      <!-- Riquadro Consumo con Barra (% CONSUMO %) -->
-      <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3 space-y-2">
+      <!-- Box Consumo Ingrandito -->
+      <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3.5 space-y-2.5 shadow-sm">
         <div class="flex items-center justify-between text-xs font-black tracking-wider text-slate-600 uppercase px-1">
-          <span id="percentageUsed">0%</span>
-          <span class="text-slate-400">Consumo</span>
-          <span id="hoursUsedLabel">0 / 150h</span>
+          <span id="percentageUsed" class="text-sm font-black text-sky-700">0%</span>
+          <span class="text-slate-400 font-bold">Consumo</span>
+          <span id="hoursUsedLabel" class="text-slate-700">0 / 150h</span>
         </div>
-        <div class="w-full h-3 bg-slate-200 rounded-full overflow-hidden p-0.5">
-          <div id="progressBar" class="h-full bg-sky-600 rounded-full transition-all duration-500" style="width: 0%"></div>
+        <div class="w-full h-3.5 bg-slate-200 rounded-full overflow-hidden p-0.5">
+          <div id="progressBar" class="h-full bg-gradient-to-r from-sky-500 to-sky-600 rounded-full transition-all duration-500" style="width: 0%"></div>
         </div>
       </div>
 
     </section>
 
-    <!-- Sezione Archivio Mensile -->
+    <!-- Archivio Mensile -->
     <div class="flex items-center justify-between pt-1 px-1">
       <h2 class="text-xs font-black text-slate-500 uppercase tracking-wider">Archivio Mensile</h2>
       <button id="btnExportAll" class="text-xs bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow-sm active:scale-95">
@@ -157,8 +162,8 @@
       </button>
     </div>
 
-    <!-- Lista Mesi (Accordion) -->
-    <div id="monthsContainer" class="space-y-3 w-full">
+    <!-- Accordion Mesi -->
+    <div id="monthsContainer" class="space-y-3.5 w-full">
       <div class="text-center py-10 text-slate-400 text-sm bg-white rounded-3xl border border-slate-200">
         <i data-lucide="loader-2" class="w-6 h-6 animate-spin mx-auto mb-2 text-sky-600"></i>
         Caricamento archivio...
@@ -174,11 +179,10 @@
     </button>
   </div>
 
-  <!-- Modale Inserimento / Modifica Riga -->
+  <!-- Modale Inserimento / Modifica -->
   <div id="entryModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-end sm:items-center justify-center p-0 sm:p-4 overflow-hidden">
     <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-5 space-y-3.5 shadow-2xl border border-slate-200 relative">
       
-      <!-- Tasto Chiusura X -->
       <div class="flex justify-end">
         <button id="btnCloseModal" type="button" class="text-slate-400 hover:text-slate-600 p-1.5 rounded-full bg-slate-100 hover:bg-slate-200 transition">
           <i data-lucide="x" class="w-4 h-4"></i>
@@ -214,12 +218,10 @@
           </div>
         </div>
 
-        <!-- Orario Uscita Lavoro -->
+        <!-- Orario Uscita -->
         <div class="space-y-1.5 w-full">
           <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider">Orario Uscita Lavoro</label>
           <div class="grid grid-cols-2 gap-3 w-full">
-            
-            <!-- Preimpostati a SX -->
             <div class="bg-slate-50 border border-slate-200 rounded-2xl p-2 space-y-1 shadow-sm">
               <span class="block text-[10px] font-black uppercase text-slate-400 tracking-wider text-center">Preimpostati</span>
               <div class="grid grid-cols-2 gap-1.5">
@@ -228,20 +230,17 @@
               </div>
             </div>
 
-            <!-- Personalizzato a DX -->
             <div class="bg-slate-50 border border-slate-300 rounded-2xl p-2 space-y-1 shadow-sm">
               <span class="block text-[10px] font-black uppercase text-sky-700 tracking-wider text-center">Personalizzato</span>
               <div class="bg-white border border-slate-300 rounded-xl px-2 py-1 shadow-inner">
                 <input type="time" id="inputWorkExitTime" value="13:00" required class="text-base font-black text-slate-900 text-center py-0.5">
               </div>
             </div>
-
           </div>
         </div>
 
-        <!-- Sliders Ore -->
+        <!-- Sliders -->
         <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3.5 space-y-3.5 w-full">
-          
           <div class="space-y-1.5 w-full">
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold text-slate-700 uppercase">Ore Richieste</span>
@@ -280,7 +279,6 @@
               <span>8h</span>
             </div>
           </div>
-
         </div>
 
         <!-- 2 Tasti Full-Width -->
@@ -461,6 +459,27 @@
       document.getElementById('percentageUsed').innerText = `${percent.toFixed(1)}%`;
       document.getElementById('hoursUsedLabel').innerText = `${totReq.toFixed(1)} / ${maxHoursTotal}h`;
       document.getElementById('progressBar').style.width = `${percent}%`;
+
+      const badge = document.getElementById('statusBadge');
+      const badgeText = document.getElementById('statusBadgeText');
+
+      if (currentEntries.length === 0) {
+        badge.className = "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black bg-slate-100 text-slate-500 border border-slate-200";
+        badge.innerHTML = `<i data-lucide="info" class="w-4 h-4 text-slate-400"></i><span id="statusBadgeText">NESSUN DATO</span>`;
+      } else {
+        const diff = totBusta - totReq;
+        if (Math.abs(diff) < 0.01) {
+          badge.className = "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black bg-emerald-100 text-emerald-800 border border-emerald-300";
+          badge.innerHTML = `<i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i><span id="statusBadgeText">CONTEGGI OK</span>`;
+        } else if (diff < 0) {
+          badge.className = "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black bg-rose-100 text-rose-800 border border-rose-300";
+          badge.innerHTML = `<i data-lucide="alert-triangle" class="w-4 h-4 text-rose-600"></i><span id="statusBadgeText">MANCANO ${Math.abs(diff).toFixed(1)}h</span>`;
+        } else {
+          badge.className = "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black bg-amber-100 text-amber-800 border border-amber-300";
+          badge.innerHTML = `<i data-lucide="info" class="w-4 h-4 text-amber-600"></i><span id="statusBadgeText">+${diff.toFixed(1)}h IN BUSTA</span>`;
+        }
+      }
+      lucide.createIcons();
     }
 
     function renderMonthsAccordion() {
@@ -574,7 +593,7 @@
                   </div>
                 </div>
                 <div class="flex items-center gap-2">
-                  <span class="text-[10px] px-2.5 py-0.5 rounded-full font-bold ${isMatched ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
+                  <span class="text-xs px-2.5 py-0.5 rounded-full font-bold ${isMatched ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
                     ${isMatched ? 'OK' : 'Diff'}
                   </span>
                   <i data-lucide="chevron-down" id="icon_${monthKey}" class="w-4 h-4 text-slate-400 transition-transform ${isOpen ? 'rotate-180' : ''}"></i>
@@ -766,12 +785,15 @@
             table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 12px; }
             th { background-color: #f1f5f9; padding: 8px; border: 1px solid #cbd5e1; text-align: center; font-size: 10px; text-transform: uppercase; }
             .totals { margin-top: 16px; display: flex; justify-content: space-between; background: #f8fafc; border: 1px solid #cbd5e1; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 12px; }
-            .btn { background: #0284c7; color: white; border: none; padding: 8px 16px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-bottom: 14px; font-size: 12px; }
+            .btn-group { display: flex; gap: 10px; margin-bottom: 14px; }
+            .btn { background: #0284c7; color: white; border: none; padding: 8px 16px; font-weight: bold; border-radius: 8px; cursor: pointer; font-size: 12px; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
+            .btn-back { background: #64748b; }
             @media print { .no-print { display: none; } }
           </style>
         </head>
         <body>
-          <div class="no-print" style="display: flex; gap: 10px; justify-content: flex-end;">
+          <div class="no-print btn-group">
+            <button class="btn btn-back" onclick="window.history.back()">← Indietro</button>
             <button class="btn" onclick="window.print()">Stampa / Salva PDF</button>
           </div>
           <h1>${title}</h1>
