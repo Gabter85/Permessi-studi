@@ -74,7 +74,7 @@
       border-radius: 9999px;
     }
 
-    /* Regole di Stampa A4 */
+    /* Stampa A4 Garantita */
     @media print {
       @page {
         size: A4 portrait;
@@ -160,8 +160,6 @@
 
       <!-- 3 Box KPI Grandi -->
       <div class="grid grid-cols-3 gap-2.5 w-full">
-        
-        <!-- Richiesta -->
         <div class="bg-slate-50 border border-slate-200 rounded-2xl py-4 px-2 text-center flex flex-col justify-center min-h-[105px] shadow-sm">
           <span class="text-xs font-black text-slate-400 uppercase tracking-wider">Richiesta</span>
           <div class="text-3xl font-black text-slate-900 mt-1.5">
@@ -169,7 +167,6 @@
           </div>
         </div>
 
-        <!-- Busta -->
         <div class="bg-amber-50/80 border border-amber-200 rounded-2xl py-4 px-2 text-center flex flex-col justify-center min-h-[105px] shadow-sm">
           <span class="text-xs font-black text-amber-800 uppercase tracking-wider">Busta</span>
           <div class="text-3xl font-black text-amber-700 mt-1.5">
@@ -177,14 +174,12 @@
           </div>
         </div>
 
-        <!-- Residuo -->
         <div class="bg-emerald-50/80 border border-emerald-200 rounded-2xl py-4 px-2 text-center flex flex-col justify-center min-h-[105px] shadow-sm">
           <span class="text-xs font-black text-emerald-800 uppercase tracking-wider">Residuo</span>
           <div class="text-3xl font-black text-emerald-700 mt-1.5">
             <span id="totalRemaining">150</span><span class="text-xs font-bold text-emerald-600 ml-0.5">h</span>
           </div>
         </div>
-
       </div>
 
       <!-- Box Consumo -->
@@ -351,13 +346,11 @@
         </button>
       </div>
 
-      <!-- Tasto 1-Click Rapido nel modale -->
       <button type="button" id="btnBustaMatchFast" class="w-full py-3 px-3 bg-emerald-50 hover:bg-emerald-100 border-2 border-emerald-500 rounded-2xl text-xs font-black text-emerald-900 flex items-center justify-center gap-2 transition active:scale-95 shadow-sm">
         <i data-lucide="zap" class="w-4 h-4 fill-emerald-600 text-emerald-600"></i>
         <span id="btnBustaMatchFastText">Imposta uguale a richieste</span>
       </button>
 
-      <!-- Selettore Slider con Tasti + e - -->
       <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-3">
         <div class="flex items-center justify-between">
           <span class="text-xs font-bold text-slate-600 uppercase">Valore Cedolino</span>
@@ -391,7 +384,6 @@
   <div id="sheetViewModal" class="fixed inset-0 z-50 bg-white hidden flex-col overflow-y-auto p-4 sm:p-6">
     <div class="max-w-2xl mx-auto w-full space-y-4">
       
-      <!-- Pulsanti Azione (Nascosti in stampa) -->
       <div class="flex items-center justify-between no-print border-b border-slate-200 pb-3">
         <button id="btnCloseSheet" class="bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-black px-4 py-2.5 rounded-xl flex items-center gap-1.5 transition active:scale-95">
           <i data-lucide="arrow-left" class="w-4 h-4"></i>
@@ -404,13 +396,11 @@
         </button>
       </div>
 
-      <!-- Intestazione Foglio -->
       <div class="print:mb-2">
         <h2 id="sheetTitle" class="text-base font-black uppercase text-sky-900 tracking-tight leading-tight">Prospetto Permessi Studio</h2>
         <p class="text-xs text-slate-500 mt-0.5">Riconciliazione presenze e cedolino stipendio</p>
       </div>
 
-      <!-- Tabella A4 Compatta -->
       <div class="border border-slate-300 rounded-2xl overflow-hidden shadow-sm print:rounded-none print:border-slate-400">
         <table class="w-full text-left text-xs border-collapse">
           <thead class="bg-slate-100 border-b border-slate-300 text-slate-700 uppercase font-black text-[10px]">
@@ -429,7 +419,6 @@
         </table>
       </div>
 
-      <!-- Totali del Foglio -->
       <div class="bg-slate-50 border border-slate-300 rounded-2xl p-3 flex justify-between items-center text-xs font-black text-slate-900 print:rounded-none">
         <span id="sheetTotalReq">TOTALE RICHIESTE: 0.0h</span>
         <span id="sheetTotalBusta" class="text-amber-800">TOTALE IN BUSTA: 0.0h</span>
@@ -476,7 +465,6 @@
 
     lucide.createIcons();
 
-    // Blocco Totale Scroll Sfondo su iOS
     let scrollPos = 0;
     function lockScroll() {
       scrollPos = window.pageYOffset || document.documentElement.scrollTop;
@@ -670,55 +658,64 @@
           const isRowMatched = Math.abs(hReq - hBusta) < 0.01;
 
           return `
-            <div class="bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-5 shadow-sm space-y-3.5 w-full">
+            <div class="bg-white border border-slate-200 rounded-3xl p-4 sm:p-5 shadow-sm space-y-4 w-full">
               
-              <!-- Intestazione Scheda: Data, Materia, Uscita e Azioni -->
-              <div class="flex items-start justify-between gap-2 border-b border-slate-100 pb-3">
-                <div class="space-y-0.5">
-                  <div class="text-base font-black text-slate-900 leading-tight">${dateP}</div>
-                  <div class="text-xs font-bold text-sky-700 uppercase tracking-wide">${item.materia || 'MATERIA'}</div>
+              <!-- Intestazione Scheda con 3 Riquadri Proporzionati -->
+              <div class="flex items-center justify-between gap-2 border-b border-slate-100 pb-3">
+                
+                <!-- Data e Materia -->
+                <div class="space-y-0.5 min-w-0 flex-1">
+                  <div class="text-lg font-black text-slate-900 leading-tight">${dateP}</div>
+                  <div class="text-xs font-bold text-sky-700 uppercase tracking-wide truncate">${item.materia || 'MATERIA'}</div>
                 </div>
 
-                <div class="flex items-center gap-2">
-                  <span class="text-xs font-black text-slate-700 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200 flex items-center gap-1.5">
-                    <span class="text-[11px] font-normal text-slate-400">Uscita:</span>
-                    <strong class="font-mono">${item.workExitTime || '--:--'}</strong>
-                  </span>
-                  <button onclick="window.editEntryModal('${item.id}')" class="p-2 text-slate-400 hover:text-sky-700 hover:bg-sky-50 rounded-xl border border-slate-200/80 transition" title="Modifica Completa">
+                <!-- 3 Riquadri Grigio/Slate Allineati -->
+                <div class="flex items-center gap-2 flex-shrink-0">
+                  
+                  <!-- Riquadro 1: Uscita Orario (Grande e Rettangolare) -->
+                  <div class="h-11 px-3.5 bg-slate-100 border border-slate-200/90 rounded-2xl flex items-center justify-center gap-1.5 shadow-sm">
+                    <span class="text-[11px] font-bold text-slate-500 uppercase">Uscita:</span>
+                    <span class="text-sm font-black font-mono text-slate-900">${item.workExitTime || '--:--'}</span>
+                  </div>
+
+                  <!-- Riquadro 2: Penna Modifica (Quadrato) -->
+                  <button onclick="window.editEntryModal('${item.id}')" class="w-11 h-11 bg-slate-100 hover:bg-slate-200 border border-slate-200/90 rounded-2xl flex items-center justify-center text-slate-700 active:scale-95 transition shadow-sm" title="Modifica Riga">
                     <i data-lucide="pencil" class="w-4 h-4"></i>
                   </button>
-                  <button onclick="window.deleteEntry('${item.id}')" class="p-2 text-slate-300 hover:text-rose-600 hover:bg-rose-50 rounded-xl border border-slate-200/80 transition" title="Elimina">
+
+                  <!-- Riquadro 3: Cestino Elimina (Quadrato) -->
+                  <button onclick="window.deleteEntry('${item.id}')" class="w-11 h-11 bg-slate-100 hover:bg-rose-50 border border-slate-200/90 rounded-2xl flex items-center justify-center text-slate-400 hover:text-rose-600 active:scale-95 transition shadow-sm" title="Elimina">
                     <i data-lucide="trash-2" class="w-4 h-4"></i>
                   </button>
                 </div>
               </div>
 
-              <!-- Riquadro Confronto Ore: Spazioso, Senza Sovrapposizioni -->
-              <div class="grid grid-cols-2 gap-3 bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5 w-full">
+              <!-- Riquadro Confronto Ore: Spazioso, Centrato e Bilanciato -->
+              <div class="grid grid-cols-2 gap-3 bg-slate-50 border border-slate-200/90 rounded-2xl p-4 w-full items-center">
                 
-                <!-- Colonna 1: Richieste -->
-                <div class="flex flex-col justify-center">
-                  <span class="text-[11px] font-black uppercase tracking-wider text-slate-400 whitespace-nowrap">Richieste</span>
-                  <div class="text-2xl font-black text-slate-900 mt-0.5">
-                    ${hReq.toFixed(1).replace('.0', '')}<span class="text-sm font-bold text-slate-400 ml-0.5">h</span>
+                <!-- Colonna SX: Richieste (Centrata) -->
+                <div class="flex flex-col justify-center text-left pl-1">
+                  <span class="text-xs font-black uppercase tracking-wider text-slate-400 whitespace-nowrap">Richieste</span>
+                  <div class="text-3xl font-black text-slate-900 mt-1">
+                    ${hReq.toFixed(1).replace('.0', '')}<span class="text-base font-bold text-slate-400 ml-0.5">h</span>
                   </div>
                 </div>
                 
-                <!-- Colonna 2: In Busta + Fulmine + Modifica -->
-                <div class="border-l border-slate-200/90 pl-3 flex items-center justify-between gap-2">
-                  <div>
-                    <span class="text-[11px] font-black uppercase tracking-wider text-amber-800 whitespace-nowrap">In Busta</span>
-                    <div class="text-2xl font-black ${isRowMatched ? 'text-amber-700' : 'text-rose-600'} mt-0.5">
-                      ${hBusta.toFixed(1).replace('.0', '')}<span class="text-sm font-bold text-amber-500 ml-0.5">h</span>
+                <!-- Colonna DX: In Busta + Fulmine + Mod (Tutto Centrato e Allineato) -->
+                <div class="border-l border-slate-200 pl-3 flex items-center justify-between gap-2">
+                  <div class="flex flex-col justify-center">
+                    <span class="text-xs font-black uppercase tracking-wider text-amber-800 whitespace-nowrap">In Busta</span>
+                    <div class="text-3xl font-black ${isRowMatched ? 'text-amber-700' : 'text-rose-600'} mt-1">
+                      ${hBusta.toFixed(1).replace('.0', '')}<span class="text-base font-bold text-amber-500 ml-0.5">h</span>
                     </div>
                   </div>
 
-                  <!-- Tasti Azione: Fulmine ⚡ e Modifica -->
+                  <!-- Tasti Azione: Fulmine ⚡ e Mod -->
                   <div class="flex items-center gap-1.5 flex-shrink-0">
-                    <button onclick="window.quickSyncHours('${item.id}', ${hReq})" class="w-9 h-9 rounded-xl flex items-center justify-center transition active:scale-90 shadow-sm flex-shrink-0 ${isRowMatched ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 animate-pulse'}" title="Allinea subito a ${hReq}h">
-                      <i data-lucide="zap" class="w-4 h-4 fill-current"></i>
+                    <button onclick="window.quickSyncHours('${item.id}', ${hReq})" class="w-10 h-10 rounded-2xl flex items-center justify-center transition active:scale-90 shadow-sm flex-shrink-0 ${isRowMatched ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 animate-pulse'}" title="Allinea subito a ${hReq}h">
+                      <i data-lucide="zap" class="w-5 h-5 fill-current"></i>
                     </button>
-                    <button onclick="window.openBustaModal('${item.id}', ${hReq}, ${hBusta}, '${dateP} - ${item.materia}')" class="px-2.5 py-2 text-xs font-black text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 rounded-xl shadow-sm active:scale-95 transition flex-shrink-0">
+                    <button onclick="window.openBustaModal('${item.id}', ${hReq}, ${hBusta}, '${dateP} - ${item.materia}')" class="h-10 px-3 text-xs font-black text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 rounded-2xl shadow-sm active:scale-95 transition flex items-center justify-center flex-shrink-0">
                       Mod.
                     </button>
                   </div>
@@ -727,17 +724,17 @@
               </div>
 
               <div class="text-xs text-slate-400 font-medium px-1">
-                Richiesta inviata il: <strong class="text-slate-600 font-bold">${dateR}</strong>
+                Richiesta inviata il: <strong class="text-slate-700 font-bold">${dateR}</strong>
               </div>
 
               <!-- Tasti Stato Conferma e Attestato -->
-              <div class="flex items-center gap-2 pt-1 border-t border-slate-100 w-full">
-                <button onclick="window.toggleConfirm('${item.id}', ${!isConf})" class="flex-1 py-2.5 px-3 rounded-2xl font-black text-xs flex items-center justify-center gap-2 transition active:scale-98 ${isConf ? 'bg-emerald-50 text-emerald-800 border-2 border-emerald-300' : 'bg-slate-100 text-slate-500 border border-slate-200'}">
+              <div class="flex items-center gap-2.5 pt-1 border-t border-slate-100 w-full">
+                <button onclick="window.toggleConfirm('${item.id}', ${!isConf})" class="flex-1 py-3 px-3 rounded-2xl font-black text-xs flex items-center justify-center gap-2 transition active:scale-98 ${isConf ? 'bg-emerald-50 text-emerald-800 border-2 border-emerald-300' : 'bg-slate-100 text-slate-500 border border-slate-200'}">
                   <i data-lucide="${isConf ? 'check-circle-2' : 'circle'}" class="w-4 h-4 stroke-[2.5]"></i>
                   <span>${isConf ? 'Confermata' : 'In attesa'}</span>
                 </button>
 
-                <button onclick="window.toggleJustify('${item.id}', ${!isJust})" class="flex-1 py-2.5 px-3 rounded-2xl font-black text-xs flex items-center justify-center gap-2 transition active:scale-98 ${isJust ? 'bg-sky-50 text-sky-800 border-2 border-sky-300' : 'bg-slate-100 text-slate-500 border border-slate-200'}">
+                <button onclick="window.toggleJustify('${item.id}', ${!isJust})" class="flex-1 py-3 px-3 rounded-2xl font-black text-xs flex items-center justify-center gap-2 transition active:scale-98 ${isJust ? 'bg-sky-50 text-sky-800 border-2 border-sky-300' : 'bg-slate-100 text-slate-500 border border-slate-200'}">
                   <i data-lucide="${isJust ? 'file-check-2' : 'file'}" class="w-4 h-4"></i>
                   <span>${isJust ? 'Consegnato' : 'Da dare'}</span>
                 </button>
@@ -749,30 +746,32 @@
 
         return `
           <div class="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden w-full">
-            <div class="p-4 bg-slate-50/90 border-b border-slate-200/80 flex items-center justify-between">
+            
+            <!-- Accordion Header Ingrandito che Riempie lo Spazio -->
+            <div class="p-4 sm:p-5 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
               <button onclick="window.toggleAccordion('acc_${monthKey}')" class="flex-1 text-left flex items-center justify-between pr-3">
-                <div class="space-y-0.5">
-                  <div class="text-base font-black text-slate-900">${capMonthName}</div>
-                  <div class="text-xs font-bold text-slate-500 flex items-center gap-2">
-                    <span>Req: <strong class="text-slate-800">${mReq.toFixed(1)}h</strong></span>
+                <div class="space-y-1">
+                  <div class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight leading-tight">${capMonthName}</div>
+                  <div class="text-sm font-bold text-slate-500 flex items-center gap-2">
+                    <span>Req: <strong class="text-slate-900">${mReq.toFixed(1)}h</strong></span>
                     <span>•</span>
                     <span>Busta: <strong class="${isMatched ? 'text-amber-700' : 'text-rose-600'}">${mBusta.toFixed(1)}h</strong></span>
                   </div>
                 </div>
-                <div class="flex items-center gap-2">
-                  <span class="text-xs px-3 py-1 rounded-xl font-black ${isMatched ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
+                <div class="flex items-center gap-2.5">
+                  <span class="text-xs sm:text-sm px-3.5 py-1 rounded-xl font-black ${isMatched ? 'bg-emerald-100 text-emerald-800 border border-emerald-200' : 'bg-rose-100 text-rose-800 border border-rose-200'}">
                     ${isMatched ? 'OK' : 'Diff'}
                   </span>
-                  <i data-lucide="chevron-down" id="icon_${monthKey}" class="w-4 h-4 text-slate-400 transition-transform ${isOpen ? 'rotate-180' : ''}"></i>
+                  <i data-lucide="chevron-down" id="icon_${monthKey}" class="w-5 h-5 text-slate-400 transition-transform ${isOpen ? 'rotate-180' : ''}"></i>
                 </div>
               </button>
 
-              <button onclick="window.openMonthSheet('${monthKey}')" class="bg-white hover:bg-slate-100 text-sky-800 p-2.5 rounded-2xl border border-slate-200 shadow-sm transition active:scale-95" title="Condividi Foglio Mese">
+              <button onclick="window.openMonthSheet('${monthKey}')" class="bg-white hover:bg-slate-100 text-sky-800 p-2.5 rounded-2xl border border-slate-200 shadow-sm transition active:scale-95 flex-shrink-0" title="Condividi Foglio Mese">
                 <i data-lucide="share-2" class="w-4 h-4"></i>
               </button>
             </div>
 
-            <div id="acc_${monthKey}" class="${isOpen ? '' : 'hidden'} p-4 bg-slate-100/50 space-y-3.5 w-full">
+            <div id="acc_${monthKey}" class="${isOpen ? '' : 'hidden'} p-4 sm:p-5 bg-slate-100/50 space-y-4 w-full">
               ${entriesCardsHtml}
             </div>
           </div>
@@ -955,7 +954,7 @@
       }
     });
 
-    // --- Foglio di Riepilogo con Stampa A4 Garantita ---
+    // --- Foglio di Riepilogo ---
     const sheetModal = document.getElementById('sheetViewModal');
 
     function renderSheetData(title, list) {
@@ -1012,7 +1011,6 @@
       unlockScroll();
     });
 
-    // Stampa Pulita
     document.getElementById('btnPrintTrigger').addEventListener('click', () => {
       unlockScroll();
       setTimeout(() => {
