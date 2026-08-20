@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Permessi Studio 150 Ore</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      -webkit-tap-highlight-color: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      overscroll-behavior-y: auto;
+      -webkit-overflow-scrolling: touch;
+      background-color: #f8fafc;
+    }
+
+    /* Sliders Personalizzati e Perfettamente Allineati */
+    input[type=range] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 28px;
+      background: transparent;
+      margin: 0;
+      padding: 0;
+    }
+    input[type=range]:focus {
+      outline: none;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 24px;
+      width: 24px;
+      border-radius: 50%;
+      background: #0284c7;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(2, 132, 199, 0.4);
+      margin-top: -8px;
+    }
+    input[type=range]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 8px;
+      cursor: pointer;
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="text-slate-800 min-h-screen pb-28">
+
+  <!-- Header Stile ClasseViva -->
+  <header class="sticky top-0 z-30 bg-sky-700 text-white shadow-md px-4 py-3.5">
+    <div class="max-w-lg mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-2xl bg-white/15 border border-white/20 flex items-center justify-center font-bold shadow-inner">
+          <i data-lucide="graduation-cap" class="w-6 h-6 text-white"></i>
+        </div>
+        <div>
+          <h1 class="text-base font-bold tracking-tight leading-tight">Permessi Studio 150h</h1>
+          <p class="text-xs text-sky-100 flex items-center gap-1.5" id="authIndicator">
+            <span class="w-2 h-2 rounded-full bg-amber-300 animate-pulse"></span> Connessione...
+          </p>
+        </div>
+      </div>
+
+      <button id="btnOpenModalTop" class="bg-white text-sky-800 hover:bg-sky-50 text-xs font-bold px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-sm active:scale-95 transition">
+        <i data-lucide="plus" class="w-4 h-4 stroke-[2.5]"></i>
+        <span>Nuova Riga</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="max-w-lg mx-auto px-4 pt-4 space-y-4">
+
+    <!-- Cruscotto Totale Ingrandito -->
+    <section class="bg-white border border-slate-200/90 rounded-3xl p-5 shadow-sm space-y-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Quadro Generale</span>
+          <h2 class="text-lg font-black text-slate-800 leading-tight">Riepilogo Totale Ore</h2>
+        </div>
+        <button id="btnEditTotal" class="text-xs text-sky-700 hover:text-sky-800 font-bold flex items-center gap-1.5 bg-sky-50 hover:bg-sky-100/80 px-3 py-1.5 rounded-xl border border-sky-200/80 transition">
+          <i data-lucide="sliders-horizontal" class="w-3.5 h-3.5"></i>
+          <span id="maxHoursLabel">Monte: 150h</span>
+        </button>
+      </div>
+
+      <!-- Tre Box KPI Grandi -->
+      <div class="grid grid-cols-3 gap-2.5">
+        <div class="bg-slate-50 border border-slate-200/90 rounded-2xl p-3 text-center">
+          <div class="text-[11px] font-bold text-slate-500 uppercase">Richieste</div>
+          <div class="text-2xl font-black text-slate-900 mt-1">
+            <span id="totalRequested">0</span><span class="text-xs font-bold text-slate-400 ml-0.5">h</span>
+          </div>
+        </div>
+
+        <div class="bg-amber-50/80 border border-amber-200 rounded-2xl p-3 text-center">
+          <div class="text-[11px] font-bold text-amber-800 uppercase">In Busta</div>
+          <div class="text-2xl font-black text-amber-700 mt-1">
+            <span id="totalInBusta">0</span><span class="text-xs font-bold text-amber-600 ml-0.5">h</span>
+          </div>
+        </div>
+
+        <div class="bg-emerald-50/80 border border-emerald-200 rounded-2xl p-3 text-center">
+          <div class="text-[11px] font-bold text-emerald-800 uppercase">Residuo 150h</div>
+          <div class="text-2xl font-black text-emerald-700 mt-1">
+            <span id="totalRemaining">150</span><span class="text-xs font-bold text-emerald-600 ml-0.5">h</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Barra di Avanzamento -->
+      <div class="space-y-2">
+        <div class="flex justify-between text-xs font-bold text-slate-600">
+          <span>Consumo Plafond</span>
+          <span id="percentageUsed" class="text-sky-700 font-extrabold">0%</span>
+        </div>
+        <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden p-0.5 border border-slate-200">
+          <div id="progressBar" class="h-full bg-gradient-to-r from-sky-500 to-sky-600 rounded-full transition-all duration-500" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <!-- Banner Informativo Quadratura -->
+      <div id="reconciliationBanner" class="text-xs rounded-xl p-3 text-center font-bold bg-slate-100 text-slate-600 border border-slate-200 flex items-center justify-center gap-2">
+        Nessun dato registrato
+      </div>
+    </section>
+
+    <!-- Intestazione Archivio Mesi -->
+    <div class="flex items-center justify-between pt-1">
+      <div class="flex items-center gap-1.5 text-xs font-bold text-slate-600 uppercase tracking-wider">
+        <i data-lucide="folder-clock" class="w-4 h-4 text-sky-700"></i>
+        <span>Archivio Mensile</span>
+      </div>
+      <button id="btnExportAll" class="text-xs bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow-sm active:scale-95">
+        <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 text-sky-700"></i>
+        <span>Foglio Completo</span>
+      </button>
+    </div>
+
+    <!-- Contenitore Accordion Mesi -->
+    <div id="monthsContainer" class="space-y-3">
+      <div class="text-center py-10 text-slate-400 text-sm bg-white rounded-2xl border border-slate-200">
+        <i data-lucide="loader-2" class="w-6 h-6 animate-spin mx-auto mb-2 text-sky-600"></i>
+        Caricamento archivio...
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Pulsante Flottante (+) -->
+  <div class="fixed bottom-6 right-5 z-40">
+    <button id="btnOpenModalFab" class="bg-sky-600 hover:bg-sky-700 text-white p-4 rounded-2xl shadow-xl shadow-sky-600/30 flex items-center justify-center transition transform active:scale-90 border-2 border-white">
+      <i data-lucide="plus" class="w-6 h-6 stroke-[2.5]"></i>
+    </button>
+  </div>
+
+  <!-- Modale Inserimento / Modifica Riga -->
+  <div id="entryModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-5 sm:p-6 space-y-4 max-h-[92vh] overflow-y-auto shadow-2xl border border-slate-200">
+      
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div>
+          <h3 id="modalTitle" class="text-base font-bold text-slate-900">Nuova Riga Permesso</h3>
+          <p class="text-xs text-slate-500">Compila tutti i campi della giornata</p>
+        </div>
+        <button id="btnCloseModal" type="button" class="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form id="leaveForm" class="space-y-4">
+        
+        <!-- Materia -->
+        <div class="space-y-1">
+          <label class="block text-xs font-bold text-slate-600 uppercase">Materia</label>
+          <select id="inputMateria" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500">
+            <option value="ECONOMIA AZIENDALE">ECONOMIA AZIENDALE</option>
+            <option value="FRANCESE">FRANCESE</option>
+            <option value="INGLESE">INGLESE</option>
+            <option value="MATEMATICA">MATEMATICA</option>
+            <option value="DIRITTO">DIRITTO</option>
+            <option value="MATEMATICA + INFO">MATEMATICA + INFO</option>
+            <option value="SESSIONE ESAME / VERIFICA">SESSIONE ESAME / VERIFICA</option>
+            <option value="ALTRA ATTIVITÀ">ALTRA ATTIVITÀ</option>
+          </select>
+        </div>
+
+        <!-- Date Permesso & Richiesta (Spaziate e Allineate) -->
+        <div class="grid grid-cols-2 gap-3.5">
+          <div class="space-y-1 min-w-0">
+            <label class="block text-xs font-bold text-slate-600 uppercase truncate">Data Permesso</label>
+            <input type="date" id="inputDate" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-bold text-slate-800 focus:ring-2 focus:ring-sky-500">
+          </div>
+          <div class="space-y-1 min-w-0">
+            <label class="block text-xs font-bold text-slate-600 uppercase truncate">Data Richiesta</label>
+            <input type="date" id="inputRequestDate" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-bold text-slate-800 focus:ring-2 focus:ring-sky-500">
+          </div>
+        </div>
+
+        <!-- Orario Uscita Lavoro -->
+        <div class="space-y-1.5">
+          <label class="block text-xs font-bold text-slate-600 uppercase">Orario Uscita da Lavoro</label>
+          <div class="grid grid-cols-3 gap-2">
+            <input type="time" id="inputWorkExitTime" value="13:00" required class="bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-2 text-xs font-black text-slate-800 text-center focus:ring-2 focus:ring-sky-500">
+            <button type="button" onclick="document.getElementById('inputWorkExitTime').value='13:00'" class="py-2 text-xs font-bold bg-slate-100 border border-slate-300 rounded-xl text-slate-700 hover:bg-slate-200 transition">13:00</button>
+            <button type="button" onclick="document.getElementById('inputWorkExitTime').value='15:00'" class="py-2 text-xs font-bold bg-slate-100 border border-slate-300 rounded-xl text-slate-700 hover:bg-slate-200 transition">15:00</button>
+          </div>
+        </div>
+
+        <!-- Box Sliders Ore Richieste & In Busta (Allineati) -->
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-4">
+          
+          <!-- Slider Ore Richieste -->
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-700 uppercase">Ore Richieste</span>
+              <span class="text-xs font-black text-sky-800 bg-sky-100 border border-sky-200 px-3 py-0.5 rounded-lg">
+                <span id="formHoursReqLabel">2.5</span> h
+              </span>
+            </div>
+            <input type="range" id="inputHoursReqSlider" min="0.5" max="8" step="0.5" value="2.5">
+            <div class="flex justify-between text-[10px] text-slate-400 font-bold px-1">
+              <span>0.5h</span>
+              <span>2.0h</span>
+              <span>4.0h</span>
+              <span>6.0h</span>
+              <span>8.0h</span>
+            </div>
+          </div>
+
+          <div class="border-t border-slate-200"></div>
+
+          <!-- Slider Ore In Busta -->
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-700 uppercase">Ore in Busta Paga</span>
+              <span class="text-xs font-black text-amber-800 bg-amber-100 border border-amber-200 px-3 py-0.5 rounded-lg">
+                <span id="formHoursBustaLabel">2.5</span> h
+              </span>
+            </div>
+            <input type="range" id="inputHoursBustaSlider" min="0" max="8" step="0.5" value="2.5">
+            <div class="flex items-center justify-between text-[10px] px-1">
+              <div class="flex gap-3 text-slate-400 font-bold">
+                <span>0h</span>
+                <span>2.0h</span>
+                <span>4.0h</span>
+                <span>6.0h</span>
+                <span>8.0h</span>
+              </div>
+              <button type="button" id="btnMatchHours" class="text-sky-700 font-bold hover:underline">Copia da Richieste</button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 2 Tasti Grandi a Tutta Larghezza -->
+        <div class="space-y-2.5 pt-1">
+          <!-- Tasto 1: Conferma Aziendale -->
+          <button type="button" id="btnToggleConfirmed" class="w-full p-3.5 rounded-2xl flex items-center justify-between font-bold text-sm transition active:scale-[0.98] border-2">
+            <div class="flex items-center gap-3 text-left">
+              <div id="iconBoxConfirmed" class="w-9 h-9 rounded-xl flex items-center justify-center">
+                <i data-lucide="check" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <div class="text-sm font-bold text-slate-900">Conferma Aziendale</div>
+                <div class="text-[11px] font-normal text-slate-500">Autorizzazione via email</div>
+              </div>
+            </div>
+            <span id="badgeConfirmed" class="text-xs px-3 py-1 rounded-lg uppercase tracking-wider font-extrabold">CONFERMATA</span>
+          </button>
+
+          <!-- Tasto 2: Attestato Scuola -->
+          <button type="button" id="btnToggleJustified" class="w-full p-3.5 rounded-2xl flex items-center justify-between font-bold text-sm transition active:scale-[0.98] border-2">
+            <div class="flex items-center gap-3 text-left">
+              <div id="iconBoxJustified" class="w-9 h-9 rounded-xl flex items-center justify-center">
+                <i data-lucide="file-check-2" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <div class="text-sm font-bold text-slate-900">Attestato Scuola</div>
+                <div class="text-[11px] font-normal text-slate-500">Certificato di frequenza</div>
+              </div>
+            </div>
+            <span id="badgeJustified" class="text-xs px-3 py-1 rounded-lg uppercase tracking-wider font-extrabold">DA DARE</span>
+          </button>
+        </div>
+
+        <!-- Tasto Salva Finale -->
+        <button type="submit" id="btnSubmitForm" class="w-full bg-sky-700 hover:bg-sky-800 text-white font-black py-4 rounded-2xl shadow-lg shadow-sky-700/25 active:scale-98 transition text-sm uppercase tracking-wider">
+          Salva Riga Permesso
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- Toast Notifica -->
+  <div id="toast" class="fixed top-5 inset-x-0 max-w-xs mx-auto bg-slate-800 text-white text-xs px-4 py-3 rounded-2xl shadow-xl flex items-center gap-2 transform -translate-y-20 opacity-0 transition-all duration-300 z-50 pointer-events-none">
+    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 flex-shrink-0"></i>
+    <span id="toastMsg">Operazione completata</span>
+  </div>
+
+  <!-- Firebase Modular SDK v10 -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getDatabase, ref, push, onValue, remove, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB_N4T0V3lDnH-OznGxuRQPc8kcEROVLJ8",
+      authDomain: "mw3-voti.firebaseapp.com",
+      databaseURL: "https://mw3-voti-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "mw3-voti",
+      storageBucket: "mw3-voti.firebasestorage.app",
+      messagingSenderId: "850068348949",
+      appId: "1:850068348949:web:8d32b20b217c29cf34ee1c"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getDatabase(app);
+
+    let maxHoursTotal = 150;
+    let currentEntries = [];
+    let editingEntryId = null;
+    let currentConfirmedState = true;
+    let currentJustifiedState = false;
+
+    lucide.createIcons();
+
+    // Sliders Modale
+    const sliderReq = document.getElementById('inputHoursReqSlider');
+    const labelReq = document.getElementById('formHoursReqLabel');
+    const sliderBusta = document.getElementById('inputHoursBustaSlider');
+    const labelBusta = document.getElementById('formHoursBustaLabel');
+
+    sliderReq.addEventListener('input', (e) => { labelReq.innerText = e.target.value; });
+    sliderBusta.addEventListener('input', (e) => { labelBusta.innerText = e.target.value; });
+
+    document.getElementById('btnMatchHours').addEventListener('click', () => {
+      sliderBusta.value = sliderReq.value;
+      labelBusta.innerText = sliderReq.value;
+    });
+
+    // Gestione Tasti Grandi a Tutta Larghezza
+    const btnToggleConfirmed = document.getElementById('btnToggleConfirmed');
+    const iconBoxConfirmed = document.getElementById('iconBoxConfirmed');
+    const badgeConfirmed = document.getElementById('badgeConfirmed');
+
+    const btnToggleJustified = document.getElementById('btnToggleJustified');
+    const iconBoxJustified = document.getElementById('iconBoxJustified');
+    const badgeJustified = document.getElementById('badgeJustified');
+
+    function updateModalButtons() {
+      if (currentConfirmedState) {
+        btnToggleConfirmed.className = "w-full p-3.5 rounded-2xl flex items-center justify-between font-bold text-sm transition active:scale-[0.98] border-2 bg-emerald-50 border-emerald-500 text-emerald-900";
+        iconBoxConfirmed.className = "w-9 h-9 rounded-xl flex items-center justify-center bg-emerald-500 text-white shadow-sm";
+        iconBoxConfirmed.innerHTML = `<i data-lucide="check" class="w-5 h-5 stroke-[3]"></i>`;
+        badgeConfirmed.className = "text-xs px-3 py-1 rounded-lg uppercase tracking-wider font-extrabold bg-emerald-200/80 text-emerald-900";
+        badgeConfirmed.innerText = "CONFERMATA";
+      } else {
+        btnToggleConfirmed.className = "w-full p-3.5 rounded-2xl flex items-center justify-between font-bold text-sm transition active:scale-[0.98] border-2 bg-slate-50 border-slate-300 text-slate-700";
+        iconBoxConfirmed.className = "w-9 h-9 rounded-xl flex items-center justify-center bg-slate-200 text-slate-500";
+        iconBoxConfirmed.innerHTML = `<i data-lucide="clock" class="w-5 h-5"></i>`;
+        badgeConfirmed.className = "text-xs px-3 py-1 rounded-lg uppercase tracking-wider font-extrabold bg-slate-200 text-slate-600";
+        badgeConfirmed.innerText = "IN ATTESA";
+      }
+
+      if (currentJustifiedState) {
+        btnToggleJustified.className = "w-full p-3.5 rounded-2xl flex items-center justify-between font-bold text-sm transition active:scale-[0.98] border-2 bg-sky-50 border-sky-500 text-sky-900";
+        iconBoxJustified.className = "w-9 h-9 rounded-xl flex items-center justify-center bg-sky-600 text-white shadow-sm";
+        iconBoxJustified.innerHTML = `<i data-lucide="file-check-2" class="w-5 h-5"></i>`;
+        badgeJustified.className = "text-xs px-3 py-1 rounded-lg uppercase tracking-wider font-extrabold bg-sky-200/80 text-sky-900";
+        badgeJustified.innerText = "CONSEGNATO";
+      } else {
+        btnToggleJustified.className = "w-full p-3.5 rounded-2xl flex items-center justify-between font-bold text-sm transition active:scale-[0.98] border-2 bg-slate-50 border-slate-300 text-slate-700";
+        iconBoxJustified.className = "w-9 h-9 rounded-xl flex items-center justify-center bg-slate-200 text-slate-500";
+        iconBoxJustified.innerHTML = `<i data-lucide="file" class="w-5 h-5"></i>`;
+        badgeJustified.className = "text-xs px-3 py-1 rounded-lg uppercase tracking-wider font-extrabold bg-slate-200 text-slate-600";
+        badgeJustified.innerText = "DA DARE";
+      }
+      lucide.createIcons();
+    }
+
+    btnToggleConfirmed.addEventListener('click', () => {
+      currentConfirmedState = !currentConfirmedState;
+      updateModalButtons();
+    });
+
+    btnToggleJustified.addEventListener('click', () => {
+      currentJustifiedState = !currentJustifiedState;
+      updateModalButtons();
+    });
+
+    // Date Odierne Default
+    const now = new Date();
+    document.getElementById('inputDate').valueAsDate = now;
+    document.getElementById('inputRequestDate').valueAsDate = now;
+
+    // Login Silenzioso
+    signInAnonymously(auth).then(() => {
+      document.getElementById('authIndicator').innerHTML = `
+        <span class="w-2 h-2 rounded-full bg-emerald-300"></span> Online
+      `;
+      listenToData();
+    }).catch(err => {
+      console.error(err);
+      document.getElementById('authIndicator').innerHTML = `
+        <span class="w-2 h-2 rounded-full bg-rose-300"></span> Errore Connessione
+      `;
+    });
+
+    // Ascolto Firebase
+    function listenToData() {
+      onValue(ref(db, 'permessi_studio/settings'), (snap) => {
+        const val = snap.val();
+        if (val && val.monteOre) {
+          maxHoursTotal = parseFloat(val.monteOre);
+          document.getElementById('maxHoursLabel').innerText = `Monte: ${maxHoursTotal}h`;
+          renderDashboard();
+        }
+      });
+
+      onValue(ref(db, 'permessi_studio/entries'), (snap) => {
+        const data = snap.val();
+        currentEntries = [];
+        if (data) {
+          Object.keys(data).forEach(key => currentEntries.push({ id: key, ...data[key] }));
+        }
+        currentEntries.sort((a, b) => new Date(b.date) - new Date(a.date) || (b.timestamp || 0) - (a.timestamp || 0));
+        renderDashboard();
+        renderMonthsAccordion();
+      });
+    }
+
+    // Aggiornamento Cruscotto Totale
+    function renderDashboard() {
+      const totReq = currentEntries.reduce((s, i) => s + parseFloat(i.hours || 0), 0);
+      const totBusta = currentEntries.reduce((s, i) => s + parseFloat(i.hoursBusta !== undefined ? i.hoursBusta : i.hours), 0);
+      const remain = Math.max(0, maxHoursTotal - totReq);
+      const percent = Math.min(100, (totReq / maxHoursTotal) * 100);
+
+      document.getElementById('totalRequested').innerText = totReq.toFixed(1).replace('.0', '');
+      document.getElementById('totalInBusta').innerText = totBusta.toFixed(1).replace('.0', '');
+      document.getElementById('totalRemaining').innerText = remain.toFixed(1).replace('.0', '');
+      document.getElementById('percentageUsed').innerText = `${percent.toFixed(1)}%`;
+      document.getElementById('progressBar').style.width = `${percent}%`;
+
+      const banner = document.getElementById('reconciliationBanner');
+      if (currentEntries.length === 0) {
+        banner.className = "text-xs rounded-xl p-3 text-center font-bold bg-slate-100 text-slate-500 border border-slate-200 flex items-center justify-center gap-2";
+        banner.innerHTML = `<i data-lucide="info" class="w-4 h-4 text-slate-400"></i> Nessun permesso registrato`;
+      } else {
+        const diff = totBusta - totReq;
+        if (Math.abs(diff) < 0.01) {
+          banner.className = "text-xs rounded-xl p-3 text-center font-bold bg-emerald-50 border border-emerald-200 text-emerald-700 flex items-center justify-center gap-2";
+          banner.innerHTML = `<i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i> Quadratura perfetta: ${totReq}h richieste = ${totBusta}h in busta`;
+        } else if (diff < 0) {
+          banner.className = "text-xs rounded-xl p-3 text-center font-bold bg-rose-50 border border-rose-200 text-rose-700 flex items-center justify-center gap-2";
+          banner.innerHTML = `<i data-lucide="alert-triangle" class="w-4 h-4 text-rose-600"></i> Attenzione: mancano ${Math.abs(diff).toFixed(1)}h in busta rispetto a quelle richieste!`;
+        } else {
+          banner.className = "text-xs rounded-xl p-3 text-center font-bold bg-amber-50 border border-amber-200 text-amber-800 flex items-center justify-center gap-2";
+          banner.innerHTML = `<i data-lucide="info" class="w-4 h-4 text-amber-600"></i> +${diff.toFixed(1)}h in piu segnate sul cedolino`;
+        }
+      }
+      lucide.createIcons();
+    }
+
+    // Rendering Raggruppato per Mese (Accordion)
+    function renderMonthsAccordion() {
+      const container = document.getElementById('monthsContainer');
+      if (currentEntries.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-10 bg-white border border-slate-200 rounded-3xl p-5 shadow-sm">
+            <i data-lucide="file-spreadsheet" class="w-9 h-9 text-slate-300 mx-auto mb-2"></i>
+            <p class="text-sm font-bold text-slate-700">Nessun mese registrato</p>
+            <p class="text-xs text-slate-400 mt-1">Tocca "Nuova Riga" per inserire le tue ore di permesso.</p>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      const grouped = {};
+      currentEntries.forEach(entry => {
+        const d = new Date(entry.date);
+        const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+        if (!grouped[key]) grouped[key] = [];
+        grouped[key].push(entry);
+      });
+
+      const sortedMonthKeys = Object.keys(grouped).sort((a, b) => b.localeCompare(a));
+
+      container.innerHTML = sortedMonthKeys.map((monthKey, idx) => {
+        const entries = grouped[monthKey];
+        const [year, monthNum] = monthKey.split('-');
+        const monthDate = new Date(parseInt(year), parseInt(monthNum) - 1, 1);
+        const monthName = monthDate.toLocaleDateString('it-IT', { month: 'long', year: 'numeric' });
+        const capMonthName = monthName.charAt(0).toUpperCase() + monthName.slice(1);
+
+        const mReq = entries.reduce((s, e) => s + parseFloat(e.hours || 0), 0);
+        const mBusta = entries.reduce((s, e) => s + parseFloat(e.hoursBusta !== undefined ? e.hoursBusta : e.hours), 0);
+        const isMatched = Math.abs(mReq - mBusta) < 0.01;
+        const isOpen = idx === 0;
+
+        const entriesCardsHtml = entries.map(item => {
+          const dateP = new Date(item.date).toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' });
+          const dateR = item.requestDate ? new Date(item.requestDate).toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' }) : '-';
+          const hReq = parseFloat(item.hours || 0);
+          const hBusta = parseFloat(item.hoursBusta !== undefined ? item.hoursBusta : item.hours);
+          const isConf = item.confirmed === true || item.mailConfirmed === true;
+          const isJust = item.justified === true;
+
+          return `
+            <div class="bg-white border border-slate-200/90 rounded-2xl p-4 shadow-sm space-y-3">
+              <div class="flex items-start justify-between gap-2 border-b border-slate-100 pb-2.5">
+                <div>
+                  <div class="text-sm font-black text-slate-900">${dateP}</div>
+                  <div class="text-xs font-bold text-sky-700 uppercase tracking-tight mt-0.5">${item.materia || 'MATERIA'}</div>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-xs font-semibold text-slate-600 bg-slate-100 px-2.5 py-1 rounded-lg">
+                    Uscita: <strong class="text-slate-900 font-mono">${item.workExitTime || '--:--'}</strong>
+                  </span>
+                  <button onclick="window.editEntryModal('${item.id}')" class="text-sky-700 hover:bg-sky-50 p-1.5 rounded-lg border border-sky-100 transition" title="Modifica">
+                    <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                  </button>
+                  <button onclick="window.deleteEntry('${item.id}')" class="text-slate-300 hover:text-rose-600 p-1.5 rounded-lg transition" title="Elimina">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Confronto Richieste vs Busta -->
+              <div class="grid grid-cols-2 gap-2 bg-slate-50 border border-slate-200/80 rounded-xl p-2.5">
+                <div>
+                  <div class="text-[10px] font-bold uppercase text-slate-500">Ore Richieste</div>
+                  <div class="text-lg font-black text-slate-900 mt-0.5">
+                    ${hReq.toFixed(1).replace('.0', '')}<span class="text-xs font-medium text-slate-500 ml-0.5">h</span>
+                  </div>
+                </div>
+                <div class="border-l border-slate-200 pl-3">
+                  <div class="text-[10px] font-bold uppercase text-amber-800">Ore In Busta</div>
+                  <div class="text-lg font-black ${Math.abs(hReq - hBusta) < 0.01 ? 'text-amber-700' : 'text-rose-600'} mt-0.5">
+                    ${hBusta.toFixed(1).replace('.0', '')}<span class="text-xs font-medium text-slate-500 ml-0.5">h</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="text-[11px] text-slate-400">
+                Richiesta inviata il: <strong class="text-slate-600">${dateR}</strong>
+              </div>
+
+              <!-- Pulsanti Stato Cliccabili -->
+              <div class="flex flex-wrap items-center gap-2 pt-1 border-t border-slate-100">
+                <button onclick="window.toggleConfirm('${item.id}', ${!isConf})" class="text-xs px-3 py-1.5 rounded-xl font-bold flex items-center gap-1.5 transition ${isConf ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-slate-100 text-slate-500 border border-slate-200'}">
+                  <i data-lucide="${isConf ? 'check-circle-2' : 'circle'}" class="w-4 h-4"></i>
+                  <span>${isConf ? 'Confermata' : 'In attesa conferma'}</span>
+                </button>
+
+                <button onclick="window.toggleJustify('${item.id}', ${!isJust})" class="text-xs px-3 py-1.5 rounded-xl font-bold flex items-center gap-1.5 transition ${isJust ? 'bg-sky-50 text-sky-700 border border-sky-200' : 'bg-slate-100 text-slate-400 border border-slate-200'}">
+                  <i data-lucide="${isJust ? 'file-check-2' : 'file'}" class="w-4 h-4"></i>
+                  <span>${isJust ? 'Attestato consegnato' : 'Attestato da dare'}</span>
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        return `
+          <div class="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
+            <div class="p-4 bg-slate-50/90 border-b border-slate-200/80 flex items-center justify-between">
+              <button onclick="window.toggleAccordion('acc_${monthKey}')" class="flex-1 text-left flex items-center justify-between pr-3">
+                <div class="space-y-0.5">
+                  <div class="text-sm font-black text-slate-900">${capMonthName}</div>
+                  <div class="text-xs font-semibold text-slate-500 flex items-center gap-2">
+                    <span>Richieste: <strong class="text-slate-800">${mReq.toFixed(1)}h</strong></span>
+                    <span>•</span>
+                    <span>In Busta: <strong class="${isMatched ? 'text-amber-700' : 'text-rose-600'}">${mBusta.toFixed(1)}h</strong></span>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-[10px] px-2 py-0.5 rounded-full font-bold ${isMatched ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
+                    ${isMatched ? 'Quadratura OK' : 'Discrepanza'}
+                  </span>
+                  <i data-lucide="chevron-down" id="icon_${monthKey}" class="w-4 h-4 text-slate-400 transition-transform ${isOpen ? 'rotate-180' : ''}"></i>
+                </div>
+              </button>
+
+              <button onclick="window.exportMonthSheet('${monthKey}')" class="bg-white hover:bg-slate-100 text-sky-800 p-2 rounded-xl border border-slate-200 shadow-sm transition" title="Condividi Foglio Mese">
+                <i data-lucide="share-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+
+            <div id="acc_${monthKey}" class="${isOpen ? '' : 'hidden'} p-4 bg-slate-100/50 space-y-3">
+              ${entriesCardsHtml}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      lucide.createIcons();
+    }
+
+    window.toggleAccordion = (id) => {
+      const el = document.getElementById(id);
+      const icon = document.getElementById(`icon_${id.replace('acc_', '')}`);
+      const isHidden = el.classList.contains('hidden');
+      el.classList.toggle('hidden', !isHidden);
+      if (icon) icon.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
+    };
+
+    window.editEntryModal = (id) => {
+      const item = currentEntries.find(e => e.id === id);
+      if (!item) return;
+
+      editingEntryId = id;
+      document.getElementById('modalTitle').innerText = "Modifica Riga Permesso";
+      document.getElementById('btnSubmitForm').innerText = "Salva Modifiche";
+
+      document.getElementById('inputMateria').value = item.materia || 'ECONOMIA AZIENDALE';
+      document.getElementById('inputDate').value = item.date;
+      document.getElementById('inputRequestDate').value = item.requestDate || item.date;
+      document.getElementById('inputWorkExitTime').value = item.workExitTime || '13:00';
+
+      const hReq = item.hours || 2.5;
+      const hBusta = item.hoursBusta !== undefined ? item.hoursBusta : hReq;
+
+      sliderReq.value = hReq;
+      labelReq.innerText = hReq;
+      sliderBusta.value = hBusta;
+      labelBusta.innerText = hBusta;
+
+      currentConfirmedState = item.confirmed === true || item.mailConfirmed === true;
+      currentJustifiedState = item.justified === true;
+      updateModalButtons();
+
+      openModal();
+    };
+
+    function openNewEntryModal() {
+      editingEntryId = null;
+      document.getElementById('modalTitle').innerText = "Nuova Riga Permesso";
+      document.getElementById('btnSubmitForm').innerText = "Salva Riga Permesso";
+      document.getElementById('leaveForm').reset();
+      
+      const today = new Date();
+      document.getElementById('inputDate').valueAsDate = today;
+      document.getElementById('inputRequestDate').valueAsDate = today;
+      document.getElementById('inputWorkExitTime').value = '13:00';
+      
+      sliderReq.value = 2.5;
+      labelReq.innerText = "2.5";
+      sliderBusta.value = 2.5;
+      labelBusta.innerText = "2.5";
+
+      currentConfirmedState = true;
+      currentJustifiedState = false;
+      updateModalButtons();
+
+      openModal();
+    }
+
+    document.getElementById('leaveForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const materia = document.getElementById('inputMateria').value;
+      const date = document.getElementById('inputDate').value;
+      const requestDate = document.getElementById('inputRequestDate').value;
+      const workExitTime = document.getElementById('inputWorkExitTime').value;
+      const hours = parseFloat(sliderReq.value);
+      const hoursBusta = parseFloat(sliderBusta.value);
+
+      const payload = {
+        materia,
+        date,
+        requestDate,
+        workExitTime,
+        hours: Number(hours.toFixed(2)),
+        hoursBusta: Number(hoursBusta.toFixed(2)),
+        confirmed: currentConfirmedState,
+        mailConfirmed: currentConfirmedState,
+        justified: currentJustifiedState,
+        timestamp: Date.now()
+      };
+
+      if (editingEntryId) {
+        update(ref(db, `permessi_studio/entries/${editingEntryId}`), payload).then(() => {
+          closeModal();
+          showToast("Riga modificata con successo!");
+        });
+      } else {
+        push(ref(db, 'permessi_studio/entries'), payload).then(() => {
+          closeModal();
+          showToast("Riga aggiunta con successo!");
+        });
+      }
+    });
+
+    window.toggleConfirm = (id, status) => {
+      update(ref(db, `permessi_studio/entries/${id}`), { confirmed: status, mailConfirmed: status });
+    };
+
+    window.toggleJustify = (id, status) => {
+      update(ref(db, `permessi_studio/entries/${id}`), { justified: status });
+    };
+
+    window.deleteEntry = (id) => {
+      if (confirm("Vuoi eliminare questa riga dal registro?")) {
+        remove(ref(db, `permessi_studio/entries/${id}`)).then(() => {
+          showToast("Riga eliminata");
+        });
+      }
+    };
+
+    document.getElementById('btnEditTotal').addEventListener('click', () => {
+      const input = prompt("Imposta il monte ore complessivo (es. 150):", maxHoursTotal);
+      if (input !== null) {
+        const num = parseFloat(input);
+        if (!isNaN(num) && num > 0) {
+          update(ref(db, 'permessi_studio/settings'), { monteOre: num });
+          showToast(`Monte ore aggiornato a ${num}h`);
+        }
+      }
+    });
+
+    window.exportMonthSheet = (monthKey) => {
+      const [year, monthNum] = monthKey.split('-');
+      const monthDate = new Date(parseInt(year), parseInt(monthNum) - 1, 1);
+      const title = `Prospetto Permessi Studio - ${monthDate.toLocaleDateString('it-IT', { month: 'long', year: 'numeric' }).toUpperCase()}`;
+      
+      const monthEntries = currentEntries.filter(e => {
+        const d = new Date(e.date);
+        return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}` === monthKey;
+      });
+
+      generateCleanSheetWindow(title, monthEntries);
+    };
+
+    document.getElementById('btnExportAll').addEventListener('click', () => {
+      if (currentEntries.length === 0) {
+        alert("Nessun dato da esportare.");
+        return;
+      }
+      generateCleanSheetWindow("Prospetto Completo Permessi Studio (150 Ore)", currentEntries);
+    });
+
+    function generateCleanSheetWindow(title, list) {
+      const totReq = list.reduce((s, e) => s + parseFloat(e.hours || 0), 0);
+      const totBusta = list.reduce((s, e) => s + parseFloat(e.hoursBusta !== undefined ? e.hoursBusta : e.hours), 0);
+
+      const rows = list.map(item => `
+        <tr>
+          <td style="padding: 10px; border: 1px solid #cbd5e1; font-weight: bold;">${item.materia}</td>
+          <td style="padding: 10px; border: 1px solid #cbd5e1; text-align: center;">${new Date(item.date).toLocaleDateString('it-IT')}</td>
+          <td style="padding: 10px; border: 1px solid #cbd5e1; text-align: center; font-weight: bold;">${item.hours}h</td>
+          <td style="padding: 10px; border: 1px solid #cbd5e1; text-align: center; font-weight: bold; color: #b45309;">${item.hoursBusta !== undefined ? item.hoursBusta : item.hours}h</td>
+          <td style="padding: 10px; border: 1px solid #cbd5e1; text-align: center;">${item.workExitTime || '--:--'}</td>
+          <td style="padding: 10px; border: 1px solid #cbd5e1; text-align: center; color: ${item.confirmed ? '#15803d' : '#b91c1c'}; font-weight: bold;">
+            ${item.confirmed ? 'CONFERMATA' : 'IN ATTESA'}
+          </td>
+        </tr>
+      `).join('');
+
+      const html = `
+        <!DOCTYPE html>
+        <html lang="it">
+        <head>
+          <meta charset="UTF-8">
+          <title>${title}</title>
+          <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 24px; color: #0f172a; max-width: 800px; margin: auto; }
+            h1 { font-size: 18px; text-transform: uppercase; margin-bottom: 4px; color: #0369a1; }
+            p { font-size: 12px; color: #64748b; margin-top: 0; }
+            table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 13px; }
+            th { background-color: #f1f5f9; padding: 10px; border: 1px solid #cbd5e1; text-align: center; font-size: 11px; text-transform: uppercase; }
+            .totals { margin-top: 20px; display: flex; justify-content: space-between; background: #f8fafc; border: 1px solid #cbd5e1; padding: 14px; border-radius: 8px; font-weight: bold; }
+            .btn { background: #0284c7; color: white; border: none; padding: 10px 18px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-bottom: 16px; }
+            @media print { .no-print { display: none; } }
+          </style>
+        </head>
+        <body>
+          <div class="no-print" style="display: flex; gap: 10px; justify-content: flex-end;">
+            <button class="btn" onclick="window.print()">Stampa / Salva in PDF</button>
+          </div>
+          <h1>${title}</h1>
+          <p>Documento generato per riconciliazione presenze e cedolino stipendio</p>
+          <table>
+            <thead>
+              <tr>
+                <th style="text-align: left;">MATERIA</th>
+                <th>DATA</th>
+                <th>ORE RICHIESTE</th>
+                <th>ORE IN BUSTA</th>
+                <th>ORARIO USCITA</th>
+                <th>CONFERMATE</th>
+              </tr>
+            </thead>
+            <tbody>${rows}</tbody>
+          </table>
+          <div class="totals">
+            <span>TOTALE ORE RICHIESTE: ${totReq.toFixed(1)}h</span>
+            <span>TOTALE ORE IN BUSTA: ${totBusta.toFixed(1)}h</span>
+          </div>
+        </body>
+        </html>
+      `;
+
+      const w = window.open('', '_blank');
+      w.document.write(html);
+      w.document.close();
+    }
+
+    const modal = document.getElementById('entryModal');
+    const openModal = () => modal.classList.remove('hidden');
+    const closeModal = () => modal.classList.add('hidden');
+
+    document.getElementById('btnOpenModalTop').addEventListener('click', openNewEntryModal);
+    document.getElementById('btnOpenModalFab').addEventListener('click', openNewEntryModal);
+    document.getElementById('btnCloseModal').addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMsg').innerText = msg;
+      toast.classList.remove('-translate-y-20', 'opacity-0');
+      setTimeout(() => toast.classList.add('-translate-y-20', 'opacity-0'), 2500);
+    }
+  </script>
+</body>
+</html>
