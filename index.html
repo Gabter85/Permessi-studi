@@ -29,6 +29,12 @@
       padding: 0;
     }
 
+    /* Blocca lo scroll del body quando il modale è aperto */
+    body.modal-open {
+      overflow: hidden !important;
+      touch-action: none !important;
+    }
+
     input[type="date"], input[type="time"] {
       -webkit-appearance: none;
       -moz-appearance: none;
@@ -40,15 +46,17 @@
       outline: none;
     }
 
+    /* Slider Isolato */
     input[type=range] {
       -webkit-appearance: none;
       appearance: none;
       width: 100%;
-      height: 24px;
+      height: 28px;
       background: transparent;
       margin: 0;
       padding: 0;
       display: block;
+      touch-action: pan-x;
     }
     input[type=range]:focus {
       outline: none;
@@ -56,13 +64,13 @@
     input[type=range]::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      height: 22px;
-      width: 22px;
+      height: 24px;
+      width: 24px;
       border-radius: 50%;
       background: #0284c7;
       cursor: pointer;
-      box-shadow: 0 2px 5px rgba(2, 132, 199, 0.4);
-      margin-top: -7px;
+      box-shadow: 0 2px 6px rgba(2, 132, 199, 0.4);
+      margin-top: -8px;
     }
     input[type=range]::-webkit-slider-runnable-track {
       width: 100%;
@@ -70,6 +78,27 @@
       cursor: pointer;
       background: #cbd5e1;
       border-radius: 9999px;
+    }
+
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #sheetViewModal, #sheetViewModal * {
+        visibility: visible;
+      }
+      #sheetViewModal {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: auto;
+        background: white;
+        padding: 0;
+      }
+      .no-print {
+        display: none !important;
+      }
     }
   </style>
 </head>
@@ -110,7 +139,7 @@
         </button>
       </div>
 
-      <!-- 3 Box KPI Grandi (Richiesta, Busta, Residuo) -->
+      <!-- 3 Box KPI Grandi -->
       <div class="grid grid-cols-3 gap-2.5 w-full">
         
         <!-- 1. Richiesta -->
@@ -139,7 +168,7 @@
 
       </div>
 
-      <!-- Box Consumo Ingrandito -->
+      <!-- Box Consumo -->
       <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3.5 space-y-2.5 shadow-sm">
         <div class="flex items-center justify-between text-xs font-black tracking-wider text-slate-600 uppercase px-1">
           <span id="percentageUsed" class="text-sm font-black text-sky-700">0%</span>
@@ -156,7 +185,7 @@
     <!-- Archivio Mensile -->
     <div class="flex items-center justify-between pt-1 px-1">
       <h2 class="text-xs font-black text-slate-500 uppercase tracking-wider">Archivio Mensile</h2>
-      <button id="btnExportAll" class="text-xs bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow-sm active:scale-95">
+      <button id="btnOpenSheetAll" class="text-xs bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow-sm active:scale-95">
         <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 text-sky-700"></i>
         <span>Foglio Totale</span>
       </button>
@@ -179,9 +208,9 @@
     </button>
   </div>
 
-  <!-- Modale Inserimento / Modifica -->
+  <!-- Modale Inserimento / Modifica Riga (Senza Ore Busta all'aggiunta) -->
   <div id="entryModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-end sm:items-center justify-center p-0 sm:p-4 overflow-hidden">
-    <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-5 space-y-3.5 shadow-2xl border border-slate-200 relative">
+    <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-5 space-y-3.5 shadow-2xl border border-slate-200 relative max-h-[92vh] overflow-y-auto">
       
       <div class="flex justify-end">
         <button id="btnCloseModal" type="button" class="text-slate-400 hover:text-slate-600 p-1.5 rounded-full bg-slate-100 hover:bg-slate-200 transition">
@@ -239,45 +268,21 @@
           </div>
         </div>
 
-        <!-- Sliders -->
-        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3.5 space-y-3.5 w-full">
-          <div class="space-y-1.5 w-full">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-slate-700 uppercase">Ore Richieste</span>
-              <span class="text-sm font-black text-sky-800 bg-sky-100 border border-sky-200 px-3 py-0.5 rounded-xl">
-                <span id="formHoursReqLabel">2.5</span> h
-              </span>
-            </div>
-            <input type="range" id="inputHoursReqSlider" min="0.5" max="8" step="0.5" value="2.5" class="w-full">
-            <div class="flex justify-between text-xs text-slate-400 font-bold px-1">
-              <span>0.5h</span>
-              <span>2h</span>
-              <span>4h</span>
-              <span>6h</span>
-              <span>8h</span>
-            </div>
+        <!-- Solo Slider Ore Richieste (Spazio Ottimizzato!) -->
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3.5 space-y-2.5 w-full">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-700 uppercase">Ore Richieste</span>
+            <span class="text-sm font-black text-sky-800 bg-sky-100 border border-sky-200 px-3 py-0.5 rounded-xl">
+              <span id="formHoursReqLabel">2.5</span> h
+            </span>
           </div>
-
-          <div class="border-t border-slate-200"></div>
-
-          <div class="space-y-1.5 w-full">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-slate-700 uppercase">Ore in Busta</span>
-              <div class="flex items-center gap-2">
-                <button type="button" id="btnMatchHours" class="text-xs text-sky-700 font-bold underline">Copia Richieste</button>
-                <span class="text-sm font-black text-amber-800 bg-amber-100 border border-amber-200 px-3 py-0.5 rounded-xl">
-                  <span id="formHoursBustaLabel">2.5</span> h
-                </span>
-              </div>
-            </div>
-            <input type="range" id="inputHoursBustaSlider" min="0.5" max="8" step="0.5" value="2.5" class="w-full">
-            <div class="flex justify-between text-xs text-slate-400 font-bold px-1">
-              <span>0.5h</span>
-              <span>2h</span>
-              <span>4h</span>
-              <span>6h</span>
-              <span>8h</span>
-            </div>
+          <input type="range" id="inputHoursReqSlider" min="0.5" max="8" step="0.5" value="2.5" class="w-full">
+          <div class="flex justify-between text-xs text-slate-400 font-bold px-1">
+            <span>0.5h</span>
+            <span>2h</span>
+            <span>4h</span>
+            <span>6h</span>
+            <span>8h</span>
           </div>
         </div>
 
@@ -313,6 +318,57 @@
     </div>
   </div>
 
+  <!-- Schermata Integrata Foglio di Riepilogo (Indietro Funzionante al 100%) -->
+  <div id="sheetViewModal" class="fixed inset-0 z-50 bg-white hidden flex-col overflow-y-auto p-4 sm:p-6">
+    <div class="max-w-2xl mx-auto w-full space-y-4">
+      
+      <!-- Barra Pulsanti Superiore -->
+      <div class="flex items-center justify-between no-print border-b border-slate-200 pb-3">
+        <button id="btnCloseSheet" class="bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-black px-4 py-2.5 rounded-xl flex items-center gap-1.5 transition active:scale-95">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>Indietro</span>
+        </button>
+
+        <button onclick="window.print()" class="bg-sky-700 hover:bg-sky-800 text-white text-xs font-black px-4 py-2.5 rounded-xl flex items-center gap-1.5 transition shadow-sm active:scale-95">
+          <i data-lucide="printer" class="w-4 h-4"></i>
+          <span>Stampa / PDF</span>
+        </button>
+      </div>
+
+      <!-- Intestazione Foglio -->
+      <div>
+        <h2 id="sheetTitle" class="text-base sm:text-lg font-black uppercase text-sky-900 tracking-tight">Prospetto Permessi Studio</h2>
+        <p class="text-xs text-slate-500">Riepilogo per riconciliazione presenze e cedolino stipendio</p>
+      </div>
+
+      <!-- Tabella Dati -->
+      <div class="border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+        <table class="w-full text-left text-xs border-collapse">
+          <thead class="bg-slate-100 border-b border-slate-200 text-slate-600 uppercase font-black text-[10px]">
+            <tr>
+              <th class="p-3">Materia</th>
+              <th class="p-3 text-center">Data</th>
+              <th class="p-3 text-center">Richieste</th>
+              <th class="p-3 text-center">In Busta</th>
+              <th class="p-3 text-center">Uscita</th>
+              <th class="p-3 text-center">Stato</th>
+            </tr>
+          </thead>
+          <tbody id="sheetTableBody" class="divide-y divide-slate-200 text-slate-800 font-semibold">
+            <!-- Righe Generate Dinamicamente -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Box Totali del Foglio -->
+      <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 flex justify-between items-center text-xs font-black text-slate-800">
+        <span id="sheetTotalReq">TOTALE RICHIESTE: 0.0h</span>
+        <span id="sheetTotalBusta" class="text-amber-800">TOTALE IN BUSTA: 0.0h</span>
+      </div>
+
+    </div>
+  </div>
+
   <!-- Toast Notifica -->
   <div id="toast" class="fixed top-5 inset-x-0 max-w-xs mx-auto bg-slate-800 text-white text-xs px-4 py-3 rounded-2xl shadow-xl flex items-center gap-2 transform -translate-y-20 opacity-0 transition-all duration-300 z-50 pointer-events-none">
     <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 flex-shrink-0"></i>
@@ -342,6 +398,7 @@
     let maxHoursTotal = 150;
     let currentEntries = [];
     let editingEntryId = null;
+    let editingEntryCurrentBusta = null;
     let currentConfirmedState = true;
     let currentJustifiedState = false;
 
@@ -349,16 +406,8 @@
 
     const sliderReq = document.getElementById('inputHoursReqSlider');
     const labelReq = document.getElementById('formHoursReqLabel');
-    const sliderBusta = document.getElementById('inputHoursBustaSlider');
-    const labelBusta = document.getElementById('formHoursBustaLabel');
 
     sliderReq.addEventListener('input', (e) => { labelReq.innerText = e.target.value; });
-    sliderBusta.addEventListener('input', (e) => { labelBusta.innerText = e.target.value; });
-
-    document.getElementById('btnMatchHours').addEventListener('click', () => {
-      sliderBusta.value = sliderReq.value;
-      labelBusta.innerText = sliderReq.value;
-    });
 
     const btnToggleConfirmed = document.getElementById('btnToggleConfirmed');
     const iconBoxConfirmed = document.getElementById('iconBoxConfirmed');
@@ -461,8 +510,6 @@
       document.getElementById('progressBar').style.width = `${percent}%`;
 
       const badge = document.getElementById('statusBadge');
-      const badgeText = document.getElementById('statusBadgeText');
-
       if (currentEntries.length === 0) {
         badge.className = "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black bg-slate-100 text-slate-500 border border-slate-200";
         badge.innerHTML = `<i data-lucide="info" class="w-4 h-4 text-slate-400"></i><span id="statusBadgeText">NESSUN DATO</span>`;
@@ -546,6 +593,7 @@
                 </div>
               </div>
 
+              <!-- Confronto Richiesta vs Busta con tasto rapido per aggiornare la Busta Paga -->
               <div class="grid grid-cols-2 gap-2.5 bg-slate-50 border border-slate-200/80 rounded-xl p-2.5 w-full">
                 <div>
                   <div class="text-xs font-bold uppercase text-slate-500">Richieste</div>
@@ -553,11 +601,16 @@
                     ${hReq.toFixed(1).replace('.0', '')}<span class="text-xs font-medium text-slate-500 ml-0.5">h</span>
                   </div>
                 </div>
-                <div class="border-l border-slate-200 pl-3">
-                  <div class="text-xs font-bold uppercase text-amber-800">In Busta</div>
-                  <div class="text-lg font-black ${Math.abs(hReq - hBusta) < 0.01 ? 'text-amber-700' : 'text-rose-600'} mt-0.5">
-                    ${hBusta.toFixed(1).replace('.0', '')}<span class="text-xs font-medium text-slate-500 ml-0.5">h</span>
+                <div class="border-l border-slate-200 pl-3 flex items-center justify-between">
+                  <div>
+                    <div class="text-xs font-bold uppercase text-amber-800">In Busta</div>
+                    <div class="text-lg font-black ${Math.abs(hReq - hBusta) < 0.01 ? 'text-amber-700' : 'text-rose-600'} mt-0.5">
+                      ${hBusta.toFixed(1).replace('.0', '')}<span class="text-xs font-medium text-slate-500 ml-0.5">h</span>
+                    </div>
                   </div>
+                  <button onclick="window.quickEditBusta('${item.id}', ${hBusta})" class="text-[11px] font-bold text-sky-700 bg-white border border-slate-200 hover:bg-sky-50 px-2 py-1 rounded-lg shadow-sm">
+                    Modifica
+                  </button>
                 </div>
               </div>
 
@@ -600,7 +653,7 @@
                 </div>
               </button>
 
-              <button onclick="window.exportMonthSheet('${monthKey}')" class="bg-white hover:bg-slate-100 text-sky-800 p-2 rounded-xl border border-slate-200 shadow-sm transition" title="Condividi Foglio Mese">
+              <button onclick="window.openMonthSheet('${monthKey}')" class="bg-white hover:bg-slate-100 text-sky-800 p-2 rounded-xl border border-slate-200 shadow-sm transition" title="Condividi Foglio Mese">
                 <i data-lucide="share-2" class="w-4 h-4"></i>
               </button>
             </div>
@@ -623,25 +676,35 @@
       if (icon) icon.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
     };
 
+    // Modifica rapida ore in busta quando arriva il cedolino
+    window.quickEditBusta = (id, currentVal) => {
+      const input = prompt("Ore segnate in busta paga per questa data:", currentVal);
+      if (input !== null) {
+        const num = parseFloat(input);
+        if (!isNaN(num) && num >= 0) {
+          update(ref(db, `permessi_studio/entries/${id}`), { hoursBusta: num }).then(() => {
+            showToast("Ore in busta aggiornate!");
+          });
+        }
+      }
+    };
+
     window.editEntryModal = (id) => {
       const item = currentEntries.find(e => e.id === id);
       if (!item) return;
 
       editingEntryId = id;
-      document.getElementById('btnSubmitForm').innerText = "Salva Modifiche";
+      editingEntryCurrentBusta = item.hoursBusta !== undefined ? item.hoursBusta : item.hours;
 
+      document.getElementById('btnSubmitForm').innerText = "Salva Modifiche";
       document.getElementById('inputMateria').value = item.materia || 'ECONOMIA AZIENDALE';
       document.getElementById('inputDate').value = item.date;
       document.getElementById('inputRequestDate').value = item.requestDate || item.date;
       document.getElementById('inputWorkExitTime').value = item.workExitTime || '13:00';
 
       const hReq = item.hours !== undefined ? item.hours : 2.5;
-      const hBusta = item.hoursBusta !== undefined ? item.hoursBusta : hReq;
-
       sliderReq.value = hReq;
       labelReq.innerText = hReq;
-      sliderBusta.value = hBusta;
-      labelBusta.innerText = hBusta;
 
       currentConfirmedState = item.confirmed === true || item.mailConfirmed === true;
       currentJustifiedState = item.justified === true;
@@ -652,6 +715,8 @@
 
     function openNewEntryModal() {
       editingEntryId = null;
+      editingEntryCurrentBusta = null;
+
       document.getElementById('btnSubmitForm').innerText = "Salva Riga Permesso";
       document.getElementById('leaveForm').reset();
       
@@ -662,8 +727,6 @@
       
       sliderReq.value = 2.5;
       labelReq.innerText = "2.5";
-      sliderBusta.value = 2.5;
-      labelBusta.innerText = "2.5";
 
       currentConfirmedState = true;
       currentJustifiedState = false;
@@ -679,7 +742,9 @@
       const requestDate = document.getElementById('inputRequestDate').value;
       const workExitTime = document.getElementById('inputWorkExitTime').value;
       const hours = parseFloat(sliderReq.value);
-      const hoursBusta = parseFloat(sliderBusta.value);
+
+      // Se è nuova riga, hoursBusta coincide di default con le ore richieste
+      const hoursBusta = editingEntryId && editingEntryCurrentBusta !== null ? editingEntryCurrentBusta : hours;
 
       const payload = {
         materia,
@@ -734,7 +799,37 @@
       }
     });
 
-    window.exportMonthSheet = (monthKey) => {
+    // --- Gestione Foglio di Riepilogo Integrato (Indietro Funzionante) ---
+    const sheetModal = document.getElementById('sheetViewModal');
+
+    function renderSheetData(title, list) {
+      document.getElementById('sheetTitle').innerText = title;
+      const tbody = document.getElementById('sheetTableBody');
+      const totReq = list.reduce((s, e) => s + parseFloat(e.hours || 0), 0);
+      const totBusta = list.reduce((s, e) => s + parseFloat(e.hoursBusta !== undefined ? e.hoursBusta : e.hours), 0);
+
+      tbody.innerHTML = list.map(item => `
+        <tr class="hover:bg-slate-50">
+          <td class="p-3 font-bold">${item.materia}</td>
+          <td class="p-3 text-center">${new Date(item.date).toLocaleDateString('it-IT')}</td>
+          <td class="p-3 text-center font-bold">${item.hours}h</td>
+          <td class="p-3 text-center font-bold text-amber-700">${item.hoursBusta !== undefined ? item.hoursBusta : item.hours}h</td>
+          <td class="p-3 text-center">${item.workExitTime || '--:--'}</td>
+          <td class="p-3 text-center font-bold ${item.confirmed ? 'text-emerald-700' : 'text-rose-600'}">
+            ${item.confirmed ? 'CONFERMATA' : 'IN ATTESA'}
+          </td>
+        </tr>
+      `).join('');
+
+      document.getElementById('sheetTotalReq').innerText = `TOTALE RICHIESTE: ${totReq.toFixed(1)}h`;
+      document.getElementById('sheetTotalBusta').innerText = `TOTALE IN BUSTA: ${totBusta.toFixed(1)}h`;
+
+      sheetModal.classList.remove('hidden');
+      sheetModal.classList.add('flex');
+      document.body.classList.add('modal-open');
+    }
+
+    window.openMonthSheet = (monthKey) => {
       const [year, monthNum] = monthKey.split('-');
       const monthDate = new Date(parseInt(year), parseInt(monthNum) - 1, 1);
       const title = `Prospetto Permessi Studio - ${monthDate.toLocaleDateString('it-IT', { month: 'long', year: 'numeric' }).toUpperCase()}`;
@@ -744,89 +839,35 @@
         return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}` === monthKey;
       });
 
-      generateCleanSheetWindow(title, monthEntries);
+      renderSheetData(title, monthEntries);
     };
 
-    document.getElementById('btnExportAll').addEventListener('click', () => {
+    document.getElementById('btnOpenSheetAll').addEventListener('click', () => {
       if (currentEntries.length === 0) {
-        alert("Nessun dato da esportare.");
+        alert("Nessun dato da visualizzare.");
         return;
       }
-      generateCleanSheetWindow("Prospetto Completo Permessi Studio (150 Ore)", currentEntries);
+      renderSheetData("Prospetto Completo Permessi Studio (150 Ore)", currentEntries);
     });
 
-    function generateCleanSheetWindow(title, list) {
-      const totReq = list.reduce((s, e) => s + parseFloat(e.hours || 0), 0);
-      const totBusta = list.reduce((s, e) => s + parseFloat(e.hoursBusta !== undefined ? e.hoursBusta : e.hours), 0);
+    document.getElementById('btnCloseSheet').addEventListener('click', () => {
+      sheetModal.classList.add('hidden');
+      sheetModal.classList.remove('flex');
+      document.body.classList.remove('modal-open');
+    });
 
-      const rows = list.map(item => `
-        <tr>
-          <td style="padding: 8px; border: 1px solid #cbd5e1; font-weight: bold;">${item.materia}</td>
-          <td style="padding: 8px; border: 1px solid #cbd5e1; text-align: center;">${new Date(item.date).toLocaleDateString('it-IT')}</td>
-          <td style="padding: 8px; border: 1px solid #cbd5e1; text-align: center; font-weight: bold;">${item.hours}h</td>
-          <td style="padding: 8px; border: 1px solid #cbd5e1; text-align: center; font-weight: bold; color: #b45309;">${item.hoursBusta !== undefined ? item.hoursBusta : item.hours}h</td>
-          <td style="padding: 8px; border: 1px solid #cbd5e1; text-align: center;">${item.workExitTime || '--:--'}</td>
-          <td style="padding: 8px; border: 1px solid #cbd5e1; text-align: center; color: ${item.confirmed ? '#15803d' : '#b91c1c'}; font-weight: bold;">
-            ${item.confirmed ? 'CONFERMATA' : 'IN ATTESA'}
-          </td>
-        </tr>
-      `).join('');
-
-      const html = `
-        <!DOCTYPE html>
-        <html lang="it">
-        <head>
-          <meta charset="UTF-8">
-          <title>${title}</title>
-          <style>
-            body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 20px; color: #0f172a; max-width: 800px; margin: auto; }
-            h1 { font-size: 16px; text-transform: uppercase; margin-bottom: 4px; color: #0369a1; }
-            p { font-size: 11px; color: #64748b; margin-top: 0; }
-            table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 12px; }
-            th { background-color: #f1f5f9; padding: 8px; border: 1px solid #cbd5e1; text-align: center; font-size: 10px; text-transform: uppercase; }
-            .totals { margin-top: 16px; display: flex; justify-content: space-between; background: #f8fafc; border: 1px solid #cbd5e1; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 12px; }
-            .btn-group { display: flex; gap: 10px; margin-bottom: 14px; }
-            .btn { background: #0284c7; color: white; border: none; padding: 8px 16px; font-weight: bold; border-radius: 8px; cursor: pointer; font-size: 12px; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
-            .btn-back { background: #64748b; }
-            @media print { .no-print { display: none; } }
-          </style>
-        </head>
-        <body>
-          <div class="no-print btn-group">
-            <button class="btn btn-back" onclick="window.history.back()">← Indietro</button>
-            <button class="btn" onclick="window.print()">Stampa / Salva PDF</button>
-          </div>
-          <h1>${title}</h1>
-          <p>Riepilogo ore diritto allo studio per cedolino</p>
-          <table>
-            <thead>
-              <tr>
-                <th style="text-align: left;">MATERIA</th>
-                <th>DATA</th>
-                <th>RICHIESTE</th>
-                <th>IN BUSTA</th>
-                <th>USCITA</th>
-                <th>STATO</th>
-              </tr>
-            </thead>
-            <tbody>${rows}</tbody>
-          </table>
-          <div class="totals">
-            <span>TOTALE RICHIESTE: ${totReq.toFixed(1)}h</span>
-            <span>TOTALE IN BUSTA: ${totBusta.toFixed(1)}h</span>
-          </div>
-        </body>
-        </html>
-      `;
-
-      const w = window.open('', '_blank');
-      w.document.write(html);
-      w.document.close();
-    }
-
+    // Gestione Modale Inserimento con Blocco Scorrimento Sfondo
     const modal = document.getElementById('entryModal');
-    const openModal = () => modal.classList.remove('hidden');
-    const closeModal = () => modal.classList.add('hidden');
+    
+    const openModal = () => {
+      modal.classList.remove('hidden');
+      document.body.classList.add('modal-open');
+    };
+    
+    const closeModal = () => {
+      modal.classList.add('hidden');
+      document.body.classList.remove('modal-open');
+    };
 
     document.getElementById('btnOpenModalTop').addEventListener('click', openNewEntryModal);
     document.getElementById('btnOpenModalFab').addEventListener('click', openNewEntryModal);
